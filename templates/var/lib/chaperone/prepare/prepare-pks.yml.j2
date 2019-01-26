@@ -1,0 +1,691 @@
+  - "PKS Configuration":
+    - Infrastructure:  
+      - "Infrastructure":
+        - id: ntp_servers
+          name: "NTP Servers"
+        - id: dns_server
+          name: "DNS Server"
+        - id: dns_domain
+          name: "DNS Domain"
+    - Network:
+      - "Management Network":
+        - id: management_vlan_id
+          name: "VLAN ID"
+        - id: management_subnet_mask
+          name: "Subnet Mask"
+        - id: management_gw
+          name: "Default Gateway"
+        - id: management_start_ip
+          name: "Start IP"
+        - id: management_end_ip
+          name: "End IP"
+      - "vMotion Network":
+        - id: vmotion_vlan_id
+          name: "VLAN ID"
+        - id: vmotion_subnet_mask
+          name: "Subnet Mask"
+        - id: vmotion_gw
+          name: "Default Gateway"
+        - id: vmotion_start_ip
+          name: "Start IP"
+        - id: vmotion_end_ip
+          name: "End IP"
+      - "Storage Network":
+        - id: storage_vlan_id
+          name: "VLAN ID"
+        - id: storage_subnet_mask
+          name: "Subnet Mask"
+        - id: storage_gw
+          name: "Default Gateway"
+        - id: storage_start_ip
+          name: "Start IP"
+        - id: storage_end_ip
+          name: "End IP"
+      - "Corporate/External Network":
+        - id: management_vlan_id
+          name: "VLAN ID"
+        - id: management_subnet_mask
+          name: "Subnet Mask"
+        - id: management_gw
+          name: "Default Gateway"
+        - id: management_start_ip
+          name: "Start IP"
+        - id: management_end_ip
+          name: "End IP"
+      - "Tunnel Network":
+        - id: management_vlan_id
+          name: "VLAN ID"
+        - id: management_subnet_mask
+          name: "Subnet Mask"
+        - id: management_gw
+          name: "Default Gateway"
+        - id: management_start_ip
+          name: "Start IP"
+        - id: management_end_ip
+          name: "End IP"
+    - Certificates Information:
+      - "NSX-T Certificate":
+        - id: nsxt_cert_org_name
+          name: "Org Name"
+        - id: nsxt_cert_country
+          name: "Country"
+        - id: nsxt_cert_city
+          name: "City/State"
+        - id: nsxt_pks_superuser_name
+          name: "PKS SuperUser"
+          default: "nsxt_pks_superuser"
+          hide: 1
+        - id: nsxt_cert_name
+          name: "NSXT SelfSigned Certificate Name"
+          default: "nsxt_selfsigned_cert"
+          hide: 1
+
+
+    - vCenter Details:
+      - "vCenter Config":
+        - id: vcenter_host_ip
+          name: "vCenter Host Ip address"
+        - id: vcenter_user
+          name: "vCenter User Name"
+        - id: vcenter_pwd
+          name: "vCenter Password"
+          input: password
+        - id: vcenter_datacenter
+          name: "Datacenter Name"
+        - id: vcenter_rp_nsx-t
+          name: "vCenter Resource Pool for NSX-T"
+        - id: vcenter_mgmgt_pg
+          name: "Management Portgroup for NSX-T"
+        - id: vcenter_insecure
+          name: "vCenter Insecure"
+          default: 1
+          hide: 1
+        - id: validate_certs
+          name: "Validate_certs"
+          default: "False"
+          hide: 1
+        - id: esxi_username
+          name: "ESXI Username"
+          default: "root"
+          hide: 1
+        - id: os_type
+          name: "OS Type"
+          default: "ESXI"
+          hide: 1
+
+
+
+{% for count in range(1, (no_compute_cluster|int)+1) %}
+{% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
+      - "Compute{{ count }} ESXI Host{{ host }} Information":
+        - id: esxi_compute{{ count }}_host{{ host }}_ip
+          name: "ESXI Compute{{ count }} Host{{ host }} IP"   
+        - id: esxi_compute{{ count }}_host{{ host }}_password
+          name: "ESXi Compute{{ count }} Host{{ host }} Root Password"
+          input: password
+        - id: esxi_compute{{ count }}_host{{ host }}_os_version
+          name: "ESXI Compute{{ count }} Host{{ host }} OS Version"
+        - id: esxi_compute{{ count }}_host{{ host }}_vmnic
+          name: "ESXI Compute{{ count }} Host{{ host }} Available vmnic for NSX-T"
+{% endfor %}
+{% endfor %}
+    - NSX-T Deployment:
+      - "NSX-T Manager":
+        - id: nsx_manager_host_name
+          name: "NSX-T Manager Host Name"
+        - id: nsx_manager_vm_name
+          name: "NSX-T Manager VM Name"
+          default: "NSX-T Manager"
+          hide: 1
+        - id: nsx_compute_manager_name
+          name: "NSX-T Compute Manager Name"
+          default: "vCenter-Server"
+          hide: 1
+        - id: nsx_manager_username
+          name: "NSX-T Manager Username"
+          default: "admin"
+          hide: 1
+        - id: nsx_manager_ip
+          name: "NSX-T Manager IP"
+        - id: nsx_manager_cli_pwd
+          name: "NSX-T Manager CLI Password"
+          input: password
+        - id: nsx_manager_root_pwd
+          name: "NSX-T Manager Root Password"
+          input: password
+        - id: nsx_manager_deployment_size
+          name: "NSX-T Manager Deployment Size"
+          input: dropdown            
+          options:
+            - id: small
+            - id: medium
+            - id: large
+        - id: nsx_manager_defualt_gateway
+          name: "NSX-T Manager Default Gateway"
+        - id: nsx_manager_subnetmask
+          name: "NSX-T Manager Subnet Mask"
+
+      - "NSX-T Controllers":
+{% for count in range(1, (no_controllers|int)+1) %}
+        - id: nsx_controller{{count}}_ip
+          name: "NSX-T Controller {{count}} IP"
+        - id: nsx_controller{{count}}_host_name
+          name: "NSX-T Controller {{count}} Host Name"
+{% endfor %}
+
+        - id: nsx_controller_root_pwd
+          name: "NSX-T Controller Root Password"
+          input: password
+        - id: nsx_controller_cli_pwd
+          name: "NSX-T Controller CLI Password"
+          input: password
+        - id: mgmt_cluster_name
+          name: "Management Cluster Name"
+        - id: nsx_controller_defualt_gw
+          name: "NSX-T Controller Default Gateway"
+        - id: nsx_controller_deployment_size
+          name: "NSX-T Controller Deployment Size"
+          input: dropdown            
+          options:
+            - id: small
+            - id: medium
+            - id: large
+        - id: nsx_controller_shared_secret
+          name: "NSX-T Controller Shared Secret"
+          input: password
+        - id: nsx_controller_prefix_length
+          name: "NSX-T Controller Prefix Length"
+
+      - "NSX-T Edge":
+{% for count in range(1, (no_edge|int)+1) %}
+        - id: nsx_edge{{count}}_ip
+          name: "NSX-T Edge {{count}} IP"
+        - id: nsx_edge{{count}}_host_name
+          name: "NSX-T Edge {{count}} Host Name"
+{% endfor %}
+        - id: nsx_edge_root_pwd
+          name: "NSX-T Edge Root Password"
+          input: password
+        - id: nsx_edge_cli_pwd
+          name: "NSX-T Edge CLI Password"
+          input: password
+        - id: nsx_edge_cluster_name
+          name: "Edge Cluster Name"
+        - id: nsx_edge_defualt_gw
+          name: "NSX-T Edge Default Gateway"
+        - id: nsx_edge_deployment_size
+          name: "NSX-T Edge Deployment Size"
+          input: dropdown
+          options:
+            - id: large
+          hide: 1
+        - id: nsx_edge_cluster_profile_name
+          name: "NSX-T Edge Cluster Profile Name"
+          default: "nsx-default-edge-high-availability-profile"
+          hide: 1
+        - id: nsx_edge_management_network_name
+          name: "NSX-T Edge Management Network Name"
+        - id: nsx_edge_uplink_network_name
+          name: "NSX-T Edge Uplink Network Name"
+        - id: nsx_edge_overlay_network_name
+          name: "NSX-T Edge Overlay Network Name"
+        - id: nsx_edge_portgroup_external
+          name: "NSX-T Edge Portgroup External"
+        - id: nsx_edge_prefix_length
+          name: "NSX-T Edge Prefix Length"
+        - id: nsx_edge_uplink_profile_vlan_id
+          name: "NSX-T Edge Uplink Profile VLAN ID"
+
+
+    - NSX-T Configuration:
+      - "TIER-0 Router Details":
+        - id: t0_router_name
+          name: "T0 Router Name"
+        - id: t0_router_port_ip
+          name: "T0 Router Port IP"
+        - id: t0_router_port_display_name
+          name: "T0 Router Port Display name"
+        - id: t0_router_port_prefix_length
+          name: "T0 Router Port Prefix Length"
+        - id: t0_router_type
+          name: "T0 Router Type"
+          default: "TIER0"
+          hide: 1
+          hide: 1
+        - id: edge_cluster_member_index
+          name: "Edge Cluster Member Index"
+          default: 0
+          hide: 1
+        - id: t0_link_port_name
+          name: "T0 Link Port Name"
+          default: "LinkedPort_Tier-0"
+          hide: 1
+        
+{% if routing_plan == 'BGP' %}
+        - id: t0_router_asynchronous _system
+          name: "T0 Router Asynchronous System"
+        - id: t0_router_next_neighbour
+          name: "T0 Router Next Neighbour"
+{% endif %}
+
+      - "TIER-1 Router Details":
+        - id: t1_router_name
+          name: "T1 Router Name"
+        - id: t1_router_port_ip
+          name: "T1 Router Port IP"
+        - id: t1_router_port_display_name
+          name: "T1 Router Port Display name"
+        - id: t1_router_port_prefix_length
+          name: "T1 Router Port Prefix Length"
+        - id: t1_router_type
+          name: "T1 Router Type"
+          default: "TIER1"
+        - id: t1_link_port_name
+          name: "T1 Link Port Name"
+          default: "LinkedPort_Tier-1"
+          hide: 1
+
+      - "Container IP Block Specification":
+        - id: node_ip_block_name
+          name: "Node IP Block Name"
+        - id: node_ip_block_cidr
+          name: "Node IP Block CIDR"
+        - id: pod_ip_block_name
+          name: "Pod IP Block Name"
+        - id: pod_ip_block_cidr
+          name: "Pod IP Block CIDR"
+
+      - "VIP Pool Specification":
+        - id: lb_ip_pool_name
+          name: "LB IP Pool Name"
+        - id: lb_ip_pool_cidr
+          name: "LB IP Pool CIDR"
+        - id: lb_ip_pool_start
+          name: "LB IP Pool Start"
+        - id: lb_ip_pool_end
+          name: "LB IP Pool End"
+
+      - "VTEP Pool Specification":
+        - id: vtep_ip_pool_name
+          name: VTEP IP Pool Name
+        - id: vtep_ip_pool_cidr
+          name: "VTEP IP Pool CIDR"
+        - id: vtep_ip_pool_gw
+          name: "VTEP IP Pool Gateway"
+        - id: vtep_ip_pool_start
+          name: "VTEP IP Pool Start"
+        - id: vtep_ip_pool_end
+          name: "VTEP IP Pool End"
+
+      - "Transport Zone- Overlay Information":
+        - id: overlay_transport_zone_name
+          name: "Transport Zone Name"
+        - id: overlay_switch_name
+          name: "Host Switch Name"
+        - id: overlay_transport_type
+          name: "Overlay Transport Type"
+          default: "OVERLAY"
+          hide: 1
+
+      - "Transport Zone- VLAN Information":
+        - id: vlan_transport_zone_name
+          name: "Transport Zone Name"
+        - id: vlan_switch_name
+          name: "Host Switch Name"
+        - id: vlan_transport_type
+          name: "VLAN Transport Type"
+          default: "VLAN"
+          hide: 1
+        - id: transport_valn_id
+          name: "Transprot VLAN Id"
+
+{% for count in range(1, (no_compute_cluster|int)+1) %}
+        - id: check_compute_cluster{{count}}
+          name: "Compute Cluster {{ count }}"
+          input: checkbox
+          default: 1
+          hide: 1
+{% endfor %}
+{% for count in range(1, (no_edge|int)+1) %}
+        - id: nsx_edge_tn_node{{count}}_name
+          name: "Edge TN Node{{count}} Name"
+          default: "Edge Node{{count}}"
+          hide: 1
+        - id: check_edge_node{{count}}
+          name: NSX-T Edge{{count}}
+          input: checkbox
+          default: 1
+          hide: 1
+{% endfor %}
+        - id: nsx_edge_tn_second_network
+          name: "Edge TN Second Network"
+          default: "fp-eth0"
+          hide: 1
+        - id: nsx_edge_tn_third_network
+          name: "Edge TN Third Network"
+          default: "fp-eth1"
+          hide: 1
+
+      - "Uplink Profile Names":
+        - id: uplink_profile1_name
+          name: "Uplink Profile1 name"
+        - id: uplink_mtu_value
+          name: "Uplink MTU "
+          default: 1600
+          hide: 1
+        - id: uplink1_name
+          name: "Uplink1 Name"
+          default: "uplink-1"
+          hide: 1
+        - id: uplink2_name
+          name: "Uplink2 Name"
+          default: "uplink-2"
+          hide: 1
+      - "Logical Switches":
+        - id: logical_switch_for_overlay_network
+          name: "Logical Switch for Overlay Network"
+        - id: logical_switch_for_vlan_network
+          name: "Logical Switch for VLAN Network"
+        - id: logical_switch_vlan_id
+          name: "Logical Switch VLAN ID"
+
+      - "Logical Ports for Logical Switch":
+        - id: logical_port_for_overlay
+          name: Logical Port for Overlay Switch
+        - id: logical_port_for_vlan
+          name: Logical Port for VLAN Switch
+{% if routing_plan == 'Static' %}
+      - "Static Route":
+        - id: logical_router_t0_static_route_ip
+          name: "T0 Static Next Hop IP Address"
+        - id: logical_router_t0_static_route_network
+          name: "T0 Static Route Network"
+        - id: administrative_distance
+          name: "Administrative Distance"
+          default: 1
+          hide: 1
+{% endif %}
+
+{% if pks_topology == 'NAT' %}
+
+    - NAT Rules:  
+      - "SNAT For Ops Manager":
+        - id: snat_type_for_opsmgr
+          name: "Action"
+          default: "SNAT"
+          hide: 1
+        - id: snat_source_ip_for_opsmgr
+          name: "Source IP"
+        - id: snat_translated_ip_for_opsmgr
+          name: "Translated IP"
+        - id: snat_priority_for_opsmgr
+          name: "Priority"
+    
+      - "DNAT For Ops Manager":
+        - id: dnat_type_for_opsmgr
+          name: "Action"
+          default: "DNAT"
+          hide: 1
+        - id: dnat_destination_ip_for_opsmgr
+          name: "Destination IP"
+        - id: dnat_translated_ip_for_opsmgr
+          name: "Translated IP"
+        - id: dnat_priority_for_opsmgr
+          name: "Priority"
+
+      - "SNAT For vCenter/NSX Manager":
+        - id: snat_type_for_vcenter_nsx
+          name: "Action"
+          default: "SNAT"
+          hide: 1
+        - id: snat_source_ip_for_vcenter
+          name: "Source IP"
+        - id: snat_translated_ip_for_vcenter
+          name: "Translated IP"
+        - id: snat_priority_for_vcenter
+          name: "Priority"
+      - "DNAT For vCenter/NSX Manager":
+        - id: dnat_type_for_vcenter_nsx
+          name: "Action"
+          default: "DNAT"
+          hide: 1
+        - id: dnat_destination_ip_for_vcenter
+          name: "Destination IP"
+        - id: dnat_translated_ip_for_vcenter
+          name: "Translated IP"
+        - id: dnat_priority_for_vcenter
+          name: "Priority"
+      - "SNAT For ESXI":
+        - id: snat_type_for_esxi
+          name: "Action"
+          default: "SNAT"
+          hide: 1
+        - id: snat_source_ip_for_esxi
+          name: "Source IP"
+        - id: snat_translated_ip_for_esxi
+          name: "Translated IP"
+        - id: snat_priority_for_esxi
+          name: "Priority"
+      - "DNAT For ESXI":
+        - id: dnat_type_for_esxi
+          name: "Action"
+          default: "DNAT"
+          hide: 1
+        - id: dnat_destination_ip_for_esxi
+          name: "Destination IP"
+        - id: dnat_translated_ip_for_esxi
+          name: "Translated IP"
+        - id: dant_priority_for_esxi
+          name: "Priority"   
+{% endif %}
+
+
+
+    - Ops Manager:
+      - "Ops Manager Configuration":        
+        - id: ops_datastore
+          name: "Ops Datastore"
+        - id: ops_username
+          name: "Ops Username"
+        - id: ops_admin_password
+          name: "Ops Admin Password"
+          input: password        
+        - id: ops_decryption_password
+          name: "Ops Decryption Passphrase"
+          input: password
+        - id: ops_dns
+          name: "Ops DNS"
+        - id: ops_ip
+          name: "Ops IP"
+{% if pks_topology == 'NAT' %}
+        - id: ops_gw
+          name: "Ops Gateway"
+{% endif %}               
+        - id: ops_ntp_servers
+          name: "Ops NTP Servers"        
+        - id: ops_vm_network
+          name: "Ops VM Network"
+        
+    - BOSH Config:
+      - "Management Availability Zone":
+        - id: bosh_vm_folder
+          name: "Bosh VM Folder"
+          default: "pks_vms"
+          hide: 1
+        - id: bosh_template_folder
+          name: "Bosh Template Folder"
+          default: "pks_templates"
+          hide: 1 
+        - id: bosh_disk_path
+          name: "Bosh Disk Path"
+          default: "pks_disk"
+          hide: 1 
+        - id: bosh_vm_disk_type
+          name: "VM Disk Type"
+          default: "thin"
+          hide: 1 
+        - id: bosh_enable_vm_resurrector
+          name: "Enable VM Resurrector"
+          default: true
+          hide: 1
+        - id: bosh_max_threads
+          name: "Max Threads"
+          default: 20
+          hide: 1
+        - id: icmp_checks_enabled
+          name: "ICMP Check Enabled"
+          default: false
+          hide: 1
+        - id: icmp_checks_enabled
+          name: "ICMP Check Enabled"
+          default: false
+          hide: 1        
+        - id: nsx_networking_enabled
+          name: "NSX Networking Enabled"
+          default: True
+          hide: 1
+        - id: nsx_mode
+          name: "NSX Mode"
+          default: nsx-t
+          hide: 1
+        - id: mgmt_az_name
+          name: "Management Availablity Zone name"
+        - id: mgmt_cluster_name
+          name:  "Cluster"
+        - id: mgmt_rp
+          name: "Resource Pool(optional)"
+{% for az in range(1, (compute_az|int)+1) %}    
+      - "Compute Availablity Zone {{ az }}":
+        - id: compute_az_{{ az }}_name 
+          name: "Compute Availablity Zone {{ az }} Name"
+        - id: compute_cluster_name
+          name: "Cluster"
+        - id: compute_rp
+          name: "Resource Pool(optional)"
+{% endfor %}
+
+      - "Main Network":
+        - id: main_network_name
+          name: "Main Network Name"
+        - id: vsphere_network_name_for_main_network
+          name: "vSphere Network Name"
+        - id: main_network_cidr
+          name: "CIDR"
+        - id: reserverd_ip_ranges_for_main_network
+          name: "Reserved IP Ranges"
+        - id: dns_for_main_network
+          name: "DNS"
+        - id: gateway_for_main_network
+          name: "Gateway"
+
+
+    - PKS Tile:
+      - "General Information":
+        - id: pks_tile_api_server
+          name: "PKS Tile API Server"
+        - id: pks_username
+          name: "PKS CLI Username"
+        - id: pks_pwd
+          name: "PKS CLI Password"
+        - id: pks_network_name
+          name: "PKS Network Name"  
+        - id: pks_vsphere_network_name
+          name: "PKS vSphere Network Name"
+        - id: pks_nw_cidr
+          name: "PKS CIDR"
+        - id: pks_excluded_range
+          name: "PKS Excluded Range"
+        - id: pks_nw_gateway
+          name: "PKS Gateway"
+        - id: pks_tile_system_domain
+          name: "PKS Tile System Domain"
+        - id: pks_tile_uaa_domain_prefix
+          name: "PKS Tile Uaa Domain Prefix"
+        - id: pks_tile_system_domain_ip
+          name: "PKS Tile System Domain IP"
+        - id: pks_tile_cli_user_email
+          name: "PKS Tile CLI User Email"
+        - id: pks_tile_vm_folder
+          name: "PKS Tile VM Folder"
+          default: 
+          hide: 1
+      - "PKS Configuration":   
+        - id: pks_tile_singleton_job_availability_zone
+          name: "PKS Tile Singleton Job Availability Zone Name"
+        - id: pks_tile_nw_availability_zone
+          name: "PKS Tile Availability Zone"
+        - id: pks_tile_deployment_network_name
+          name: "PKS Tile Deployment Network Name"
+        - id: pks_tile_cluster_service_network_name
+          name: "PKS Tile Cluster service Netowrk Name"
+        - id: pks_tile_nsx_skip_ssl_verification
+          name: "PKS Tile NSX Skip SSL Verification"
+        - id: pks_tile_disable_nsxt_precheck_command
+          name: "PKS Tile Cluster service Netowrk Name"
+          default: True
+          hide: 1
+        - id: pks_tile_nsx_nat_mode
+          name: "PKS Tile NSX NAT Mode"
+          input: dropdown
+          options:
+            - id: true
+            - id: false
+        - id: errand_vm_type
+          name: "Errand VM Type"
+          default: micro
+          hide: 1
+        - id: allow_privileged_containers
+          name: "Allow Privileged Containers"
+          input: dropdown
+          options:
+            - id: false
+            - id: true
+        - id: is_active_plan
+          name: "Is Active Plan"
+          default: true
+          hide: 1
+
+{% for plan_no in range(1, (plan|int)+1) %}
+      - "Plan{{plan_no}} Structure":
+        - id: plan_{{ plan_no }}_name
+          name: "Plan Name"
+        - id: plan_{{ plan_no }}_master_nodes
+          name: "Number of Master Node"
+          input: dropdown
+          options: 
+            - id: 1
+            - id: 2 
+            - id: 3
+        - id: plan_{{ plan_no }}_vm_type_for_master
+          name: "VM Type For Master"
+          input: dropdown
+          options:
+            - id: Default
+        - id: plan_{{ plan_no }}_availablity zone_for_master
+          name: "Availablity Zone for Master"
+          input: dropdown
+          options: mgmt_az            
+        - id: plan_{{ plan_no }}_worker_nodes
+          name: "Number of Worker Node"
+          input: dropdown
+          options: 
+{% for count in range(1, 51) %}
+            - id: {{ count }}
+{% endfor %}
+        - id: plan_{{ plan_no }}_vm_type_for_worker
+          name: "VM Type For Worker"
+          input: dropdown
+          options:
+            - id: Default
+        - id: plan_{{ plan_no }}_availablity zone_for_worker
+          name: "Availablity Zone for Worker"
+          input: dropdown
+          options: compute_az
+{% endfor %}
+
+
+
+
+
+
+
