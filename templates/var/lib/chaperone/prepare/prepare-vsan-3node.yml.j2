@@ -1,0 +1,277 @@
+{% if vsan_hosts == '4' %}
+  - "Single Site vSAN - 4 Node":
+{% elif vsan_hosts == '3' %}
+  - "Single Site vSAN - 3 Node":
+{% endif %}
+    - ESXi Host Details:
+{% for host in range(1, (vsan_hosts|int)+1) %}    
+      - "Existing ESXi Host{{ host }} Information":
+{% if host == 1 and storage_type=='Local Datastore' %}
+        - id: esxi_host{{ host }}_ip
+          name: "ESXi Host{{ host }} IP Address"
+          help: "(*Host with local datastore)"
+{% else %}
+        - id: esxi_host{{ host }}_ip
+          name: "ESXi Host{{ host }} IP Address"
+{% endif %}
+        - id: esxi_host{{ host }}_username
+          name: "ESXi Host{{ host }} Username"
+          default: 'root'
+          hide: 1
+        - id: esxi_host{{ host }}_password
+          name: "ESXi Host{{ host }} Root Password"
+          input: password
+{% endfor %}
+    - vCenter Deployment:
+      - "Existing Storage Configuration":
+{% if storage_type=='Local Datastore' %}
+        - id: datastore_name
+          name: "Local Datastore Name"
+          help: "Example: Datastore"
+{% else %}
+        - id: datastore_name
+          name: "External NFS Datastore Name"
+          help: "Example: NFS_Datastore"
+{% endif %}
+        - id: vsan_datastore_name
+          name: "vSAN Datastore"
+          default: 'vsanDatastore'
+          hide: 1
+      - "vCenter Installation":
+        - id: vcenter_vm_name
+          name: "vCenter Virtual Machine Name"
+          help: "Example: VCSA"
+        - id: vcenter_deployment_type
+          name: "vCenter Deployment Type"
+          input: dropdown            
+          options:
+            - id: Tiny
+            - id: Small
+            - id: Medium
+            - id: Large
+            - id: Extra Large
+        - id: vcenter_storage_size
+          name: "vCenter Storage Size"
+          input: dropdown
+          options:            
+            - id: Default
+            - id: Large
+            - id: Extra Large
+        - id: vcenter_username
+          name: "vCenter Username"
+          default: 'administrator@vsphere.local'
+        - id: vcenter_password
+          name: "vCenter Password"
+          input: password
+      - "vCenter Network Configuration":
+        - id: vcenter_system_name
+          name: "vCenter System Name with FQDN"
+          help: "Example: vcsa.vsan.com"
+        - id: vcenter_ip
+          name: "vCenter IP Address"
+        - id: vcenter_port
+          name: "vCenter Port/SSO Port"
+          default: '443'
+          hide: 1
+        - id: vcenter_sso_domain
+          name: "vCenter SSO Domain Name"
+          help: "Example: vsphere.local"
+        - id: dns_ip
+          name: "Primary DNS IP address"
+        - id: deployment_network
+          name: "Deployment Network Name"
+          help: "Example: VM Network"
+        - id: network_prefix
+          name: "Network Prefix"
+          help: "Example: 24"
+        - id: ip_family
+          name: "IP Family"
+          input: dropdown
+          options:            
+            - id: IPv4
+            - id: IPv6
+        - id: vcenter_gateway
+          name: "Gateway"
+        - id: enable_ssh
+          name: "SSH Enable"
+          default: true
+          readonly: 1
+        - id: ntp_server_ip
+          name: "NTP Server IP"
+    - vCenter Configuration:
+      - "Logical vCenter Configuration":
+        - id: datacenter_name
+          name: "Datacenter Name"
+          help: "Example: Datacenter"
+        - id: cluster_name
+          name: "Cluster Name"
+          help: "Example: Cluster"
+      - "Cluster Configuration - HA":
+        - id: enable_ha
+          name: "Enable HA on Cluster"
+          input: checkbox
+        - id: ha_host_monitor
+          name: "Host Monitoring"
+          input: dropdown
+          options:            
+            - id: Enabled
+            - id: Disabled
+        - id: ha_admission_control
+          name: "Enable Admission Control"
+          input: dropdown
+          options:            
+            - id: True
+            - id: False
+        - id: ha_vm_monitor
+          name: "VM Monitoring"
+          input: dropdown
+          options:           
+            - id: vmMonitoringDisabled
+            - id: vmMonitoringOnly
+            - id: vmAndAppMonitoring
+        - id: ha_vm_mon_sensitivity
+          name: "VM Monitoring Sensitivity"
+          input: dropdown
+          options:            
+            - id: 0
+            - id: 1
+            - id: 2
+        - id: ha_restart_priority
+          name: "Restart Priority"
+          input: dropdown
+          options:            
+            - id: Low
+            - id: Medium
+            - id: High
+      - "Cluster Configuration - DRS":
+        - id: enable_drs
+          name: "Enable DRS on Cluster"
+          input: checkbox
+        - id: drs_automation_level
+          name: "Automation Level"
+          input: dropdown
+          options:            
+            - id: fullyAutomated
+            - id: partiallyAutomated
+            - id: manual
+        - id: drs_override_vm_behavior
+          name: "Override VM Behavior"
+          input: dropdown
+          options:           
+            - id: true
+            - id: false
+        - id: drs_vmotion_rate
+          name: "vMotion Rate"
+          input: dropdown
+          options:            
+            - id: 1
+            - id: 2
+            - id: 3
+            - id: 4
+            - id: 5
+      - "Switch Configuration":
+{% if vsan_switch_type == 'DV Switch' %}
+        - id: switch_name
+          name: "Switch Name"
+          help: "Example: dvs"
+        - id: uplink_port_count
+          name: "Number of Uplink Ports"
+        - id: uplink_count
+          name: "Number of Uplinks"
+        - id: mgmt_port_group_name
+          name: "Management Port Group Name"
+          help: "Example: mgmt_pg"
+        - id: mgmt_vlan_name
+          name: "Management VLAN ID"          
+{% elif vsan_switch_type == 'Standard Switch' %}
+        - id: switch_name
+          name: "Existing Switch Name"
+          help: "Example: vSwitch0"                
+{% endif %}        
+        - id: vsan_port_group_name
+          name: "vSAN Port Group Name"
+          help: "Example: vsan_pg"
+        - id: vsan_vlan_name
+          name: "vSAN VLAN ID"          
+        - id: vmotion_port_group_name
+          name: "vMotion Port Group Name"
+          help: "Example: vmotion_pg"
+        - id: vmotion_vlan_name
+          name: "vMotion VLAN ID"          
+      - "VM Kernel Adapter for vMotion":
+{% for host in range(1, (vsan_hosts|int)+1) %}
+        - id: vmotion_vmk_adapter_ip_address_host{{ host }}
+          name: "IP Address of VM Kernel Adapter for Host{{ host }}"
+{% endfor %}
+        - id: vmotion_subnet_mask
+          name: "Subnet Mask for vMotion VM Kernel Adapter"
+      - "VM Kernel Adapter for vSAN":
+{% for host in range(1, (vsan_hosts|int)+1) %}
+        - id: vsan_vmk_adapter_ip_address_host{{ host }}
+          name: "IP Address of VM Kernel Adapter for Host{{ host }}"
+{% endfor %}
+        - id: vsan_subnet_mask
+          name: "Subnet Mask for vSAN VM Kernel Adapter"
+      - "Uplink Details for all Hosts":
+{% if vsan_switch_type == 'DV Switch' %}
+{% for host in range(1, (vsan_hosts|int)+1) %}
+        - id: vmnic__up1_host{{ host }}
+          name: "VMNIC Name to assign Uplink1 Portgroup for Host{{ host }}"
+          help: "Example: vmnic1"
+        - id: vmnic_up2_host{{ host }}
+          name: "VMNIC Name to assign Uplink2 Portgroup for Host{{ host }}"
+          help: "Example: vmnic2"
+{% endfor %}
+{% elif vsan_switch_type == 'Standard Switch' %}
+{% for host in range(1, (vsan_hosts|int)+1) %}        
+        - id: vmnic_up2_host{{ host }}
+          name: "VMNIC Name to assign Uplink2 Portgroup for Host{{ host }}"
+          help: "Example: vmnic1"
+{% endfor %}
+{% endif %}
+{% if vsan_switch_type == 'DV Switch' %}
+{% for host in range(1, (vsan_hosts|int)+1) %}
+      - "vCenter Network Migration - Host{{ host }}":
+        - id: vmkernel_name_host{{ host }}
+          name: "VMkernel Adapter Name for Migration for Host{{ host }}"
+          help: "Example: vmk0"
+        - id: current_switch_host{{ host }}
+          name: "Current Switch Name Before Migration for Host{{ host }}"
+          help: "Example: Switch0"
+        - id: current_portgroup_host{{ host }}
+          name: "Current Portgroup Name Before Migration for Host{{ host }}"
+          help: "Example: Management Network"
+{% endfor %}
+{% endif %}
+{% for host in range(1, (vsan_hosts|int)+1) %}
+    - Host{{ host }} vSAN Configuration:
+{% for group in range(1, (vsan_disk_groups|int)+1) %}
+      - "DiskGroup{{ group }} Details":
+{% for disk in range(1, (vsan_disks|int)+1) %}
+{% if host == 1 and group == 1 and disk == (vsan_disks|int) and storage_type=='Local Datastore' %}
+        - id: reclaim_disk
+          name: "* Reclaim Disk{{ disk }} - Size"
+          optional: 0
+          input: dropdown
+          options: disk{{ host }}_size
+        - id: reclaim_disk_type
+          name: "* Reclaim Disk{{ disk }} for"
+          input: dropdown
+          options:
+            - id: Capacity            
+{% else %}
+        - id: host{{ host }}_group{{ group }}_disk{{ disk }}_size
+          name: "Disk{{ disk }} - Size"
+          optional: 0
+          input: dropdown
+          options: disk{{ host }}_size
+        - id: host{{ host }}_group{{ group }}_disk{{ disk }}
+          name: "Claim Disk{{ disk }} for"
+          input: dropdown
+          options:
+            - id: Capacity
+            - id: Cache
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
