@@ -115,7 +115,7 @@
 
 
 
-{% for count in range(1, (no_compute_cluster|int)+1) %}
+{% for count in range(1, (no_compute_cluster_name|int)+1) %}
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
       - "Compute{{ count }} ESXI Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
@@ -133,6 +133,8 @@
       - "NSX-T Manager":
         - id: nsx_manager_host_name
           name: "NSX-T Manager Host Name"
+          default: "NSX-T Manager_New"
+          hide: 1
         - id: nsx_manager_vm_name
           name: "NSX-T Manager VM Name"
           default: "NSX-T Manager"
@@ -171,6 +173,8 @@
           name: "NSX-T Controller {{count}} IP"
         - id: nsx_controller{{count}}_host_name
           name: "NSX-T Controller {{count}} Host Name"
+          default: "Controller{{count}}"
+          hide: 1
 {% endfor %}
 
         - id: nsx_controller_root_pwd
@@ -202,6 +206,8 @@
           name: "NSX-T Edge {{count}} IP"
         - id: nsx_edge{{count}}_host_name
           name: "NSX-T Edge {{count}} Host Name"
+          default: "Edge{{count}}"
+          hide: 1
 {% endfor %}
         - id: nsx_edge_root_pwd
           name: "NSX-T Edge Root Password"
@@ -249,12 +255,13 @@
           name: "T0 Router Port IP"
         - id: t0_router_port_display_name
           name: "T0 Router Port Display name"
+          default: "logical router port-0"
+          hide: 1
         - id: t0_router_port_prefix_length
           name: "T0 Router Port Prefix Length"
         - id: t0_router_type
           name: "T0 Router Type"
           default: "TIER0"
-          hide: 1
           hide: 1
         - id: edge_cluster_member_index
           name: "Edge Cluster Member Index"
@@ -281,11 +288,14 @@
           name: "T1 Router Port IP"
         - id: t1_router_port_display_name
           name: "T1 Router Port Display name"
+          default: "logical router port-1"
+          hide: 1
         - id: t1_router_port_prefix_length
           name: "T1 Router Port Prefix Length"
         - id: t1_router_type
           name: "T1 Router Type"
           default: "TIER1"
+          hide: 1
         - id: t1_link_port_name
           name: "T1 Link Port Name"
           default: "LinkedPort_Tier-1"
@@ -329,33 +339,35 @@
         - id: vtep_ip_pool_end
           name: "VTEP IP Pool End"
 
-      - "Transport Zone- Overlay Information":
+      - "Transport Zone Information":
         - id: overlay_transport_zone_name
           name: "Transport Zone Name"
           default: "Transport zone-overlay"
           hide: 1
         - id: overlay_switch_name
           name: "Host Switch Name"
+          default: "hostswitch1"
+          hide: 1
         - id: overlay_transport_type
           name: "Overlay Transport Type"
           default: "OVERLAY"
           hide: 1
-
-      - "Transport Zone- VLAN Information":
         - id: vlan_transport_zone_name
           name: "Transport Zone Name"
           default: "Transport zone-VLAN"
           hide: 1
         - id: vlan_switch_name
           name: "Host Switch Name"
+          default: "hostswitch2"
+          hide: 1
         - id: vlan_transport_type
           name: "VLAN Transport Type"
           default: "VLAN"
           hide: 1
         - id: transport_valn_id
-          name: "Transprot VLAN Id"
+          name: "Transport VLAN Id"
 
-{% for count in range(1, (no_compute_cluster|int)+1) %}
+{% for count in range(1, (no_compute_cluster_name|int)+1) %}
         - id: check_compute_cluster{{count}}
           name: "Compute Cluster {{ count }}"
           input: checkbox
@@ -382,9 +394,10 @@
           default: "fp-eth1"
           hide: 1
 
-      - "Uplink Profile Names":
         - id: uplink_profile1_name
           name: "Uplink Profile1 name"
+          default: "UplinkProfile"
+          hide: 1
         - id: uplink_mtu_value
           name: "Uplink MTU "
           default: 1600
@@ -397,19 +410,26 @@
           name: "Uplink2 Name"
           default: "uplink-2"
           hide: 1
+
       - "Logical Switches":
         - id: logical_switch_for_overlay_network
-          name: "Logical Switch for Overlay Network"
+          name: "Logical Switch for Overlay Network Name"
+          default: "Logical Overlay Switch"
+          hide: 1
         - id: logical_switch_for_vlan_network
-          name: "Logical Switch for VLAN Network"
+          name: "Logical Switch for VLAN Network Name"
+          default: "Logical VLAN Switch"
+          hide: 1
         - id: logical_switch_vlan_id
           name: "Logical Switch VLAN ID"
-
-      - "Logical Ports for Logical Switch":
         - id: logical_port_for_overlay
-          name: Logical Port for Overlay Switch
+          name: "Logical Port for Overlay Switch Name"
+          default: "Logical Port_Overlay"
+          hide: 1
         - id: logical_port_for_vlan
-          name: Logical Port for VLAN Switch
+          name: "Logical Port for VLAN Switch Name"
+          default: "Logical Port_VLAN"
+          hide: 1
 {% if routing_plan == 'Static' %}
       - "Static Route":
         - id: logical_router_t0_static_route_ip
@@ -703,9 +723,6 @@
           input: dropdown
           options: compute_az
 {% endfor %}
-
-
-
 
 
 
