@@ -54,10 +54,11 @@ django_pip_packages:
   - shade
   - netaddr
   - nsxramlclient
+  - yamlordereddictloader
 
 django_pip_versioned_packages:
   - { name: "django", version: "1.8.5" }
-  - { name: "pyvmomi", version: "5.5.0-2014.1.1" }
+  - { name: "pyvmomi", version: "6.7.1.2018.12" }
   - { name: "pysphere", version: "0.1.7" }
   - { name: "hiyapyco", version: "0.4.4" }
 

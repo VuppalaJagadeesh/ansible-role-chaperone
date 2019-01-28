@@ -18,3 +18,8 @@
       name: "Deploy NSX-T "
       commands:
         - "/opt/{{ django_app }}/{{ django_app }}_play nsxt.yml --tags nsxt_node_deploy"
+  - "Pivotal container service":
+    - id: deploy_pks
+      name: "Deploy PKS "
+      commands:
+        - "/opt/{{ django_app }}/{{ django_app }}_play pks.yml --tags pks_deploy"

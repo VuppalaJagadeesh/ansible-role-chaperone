@@ -15,12 +15,26 @@
 #
 ---
 - Prepare:
+{% if (deploy_vsan == '1') -%}
+{% include 'prepare/prepare-vsan-3node.yml.j2' %}
+{% endif -%}
+
 {% if (deploy_pks == '1') -%}
 {% include 'prepare/prepare-pks.yml.j2' %}
 {% endif -%}
 
-
 - Install:
+{% if (deploy_vsan == '1') and (vsan_hosts == '3') -%}
+{% include 'install/install-3node-vsan.yml.j2' %}
+{% endif -%}
+
+{% if (deploy_vsan == '1') and (vsan_hosts == '4') -%}
+{% include 'install/install-4node-vsan.yml.j2' %}
+{% endif -%}
+
 {% if (deploy_pks == '1') -%}
 {% include 'install/install-pks.yml.j2' %}
 {% endif -%}
+
+
+

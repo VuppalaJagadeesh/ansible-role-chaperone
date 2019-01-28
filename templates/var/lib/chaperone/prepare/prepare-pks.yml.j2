@@ -211,6 +211,8 @@
           input: password
         - id: nsx_edge_cluster_name
           name: "Edge Cluster Name"
+          default: "Edge-cluster"
+          hide: 1
         - id: nsx_edge_defualt_gw
           name: "NSX-T Edge Default Gateway"
         - id: nsx_edge_deployment_size
@@ -241,6 +243,8 @@
       - "TIER-0 Router Details":
         - id: t0_router_name
           name: "T0 Router Name"
+          default: "T0-router"
+          hide: 1
         - id: t0_router_port_ip
           name: "T0 Router Port IP"
         - id: t0_router_port_display_name
@@ -271,6 +275,8 @@
       - "TIER-1 Router Details":
         - id: t1_router_name
           name: "T1 Router Name"
+          default: "T1-router"
+          hide: 1
         - id: t1_router_port_ip
           name: "T1 Router Port IP"
         - id: t1_router_port_display_name
@@ -288,6 +294,8 @@
       - "Container IP Block Specification":
         - id: node_ip_block_name
           name: "Node IP Block Name"
+          default: "Node IP Block"
+          hide: 1
         - id: node_ip_block_cidr
           name: "Node IP Block CIDR"
         - id: pod_ip_block_name
@@ -298,6 +306,8 @@
       - "VIP Pool Specification":
         - id: lb_ip_pool_name
           name: "LB IP Pool Name"
+          default: "Load Balancer IP Pool"
+          hide: 1
         - id: lb_ip_pool_cidr
           name: "LB IP Pool CIDR"
         - id: lb_ip_pool_start
@@ -308,6 +318,8 @@
       - "VTEP Pool Specification":
         - id: vtep_ip_pool_name
           name: VTEP IP Pool Name
+          default: "VTEP IP Pool"
+          hide: 1
         - id: vtep_ip_pool_cidr
           name: "VTEP IP Pool CIDR"
         - id: vtep_ip_pool_gw
@@ -320,6 +332,8 @@
       - "Transport Zone- Overlay Information":
         - id: overlay_transport_zone_name
           name: "Transport Zone Name"
+          default: "Transport zone-overlay"
+          hide: 1
         - id: overlay_switch_name
           name: "Host Switch Name"
         - id: overlay_transport_type
@@ -330,6 +344,8 @@
       - "Transport Zone- VLAN Information":
         - id: vlan_transport_zone_name
           name: "Transport Zone Name"
+          default: "Transport zone-VLAN"
+          hide: 1
         - id: vlan_switch_name
           name: "Host Switch Name"
         - id: vlan_transport_type
@@ -455,7 +471,7 @@
           name: "Translated IP"
         - id: dnat_priority_for_vcenter
           name: "Priority"
-      - "SNAT For ESXI":
+      - "SNAT For ESXi":
         - id: snat_type_for_esxi
           name: "Action"
           default: "SNAT"
@@ -466,7 +482,7 @@
           name: "Translated IP"
         - id: snat_priority_for_esxi
           name: "Priority"
-      - "DNAT For ESXI":
+      - "DNAT For ESXi":
         - id: dnat_type_for_esxi
           name: "Action"
           default: "DNAT"
@@ -492,21 +508,22 @@
           input: password        
         - id: ops_decryption_password
           name: "Ops Decryption Passphrase"
-          input: password
-        - id: ops_dns
-          name: "Ops DNS"
+          input: password        
         - id: ops_ip
           name: "Ops IP"
 {% if pks_topology == 'NAT' %}
         - id: ops_gw
           name: "Ops Gateway"
-{% endif %}               
-        - id: ops_ntp_servers
-          name: "Ops NTP Servers"        
+{% endif %}                      
         - id: ops_vm_network
           name: "Ops VM Network"
         
     - BOSH Config:
+      - "Datastore":
+        - id: ephemeral_datastore
+          name: "Ephemeral Datastore Name"
+        - id: persistent_datastore
+          name: "Persistent Datastore Name"        
       - "Management Availability Zone":
         - id: bosh_vm_folder
           name: "Bosh VM Folder"
@@ -566,60 +583,74 @@
 
       - "Main Network":
         - id: main_network_name
-          name: "Main Network Name"
+          name: "Network Name"
+          help: "Example: opsman-network"
         - id: vsphere_network_name_for_main_network
           name: "vSphere Network Name"
         - id: main_network_cidr
           name: "CIDR"
         - id: reserverd_ip_ranges_for_main_network
-          name: "Reserved IP Ranges"
-        - id: dns_for_main_network
-          name: "DNS"
+          name: "Reserved IP Ranges(optional)"        
         - id: gateway_for_main_network
           name: "Gateway"
 
 
     - PKS Tile:
-      - "General Information":
-        - id: pks_tile_api_server
-          name: "PKS Tile API Server"
+      - "PKS Configuration": 
+        - id: pks_api_hostname
+          name: "PKS API Hostname(FQDN)"
         - id: pks_username
           name: "PKS CLI Username"
         - id: pks_pwd
           name: "PKS CLI Password"
         - id: pks_network_name
-          name: "PKS Network Name"  
+          name: "PKS Network Name"
+          hide: 1  
         - id: pks_vsphere_network_name
           name: "PKS vSphere Network Name"
+          hide: 1  
         - id: pks_nw_cidr
           name: "PKS CIDR"
+          hide: 1  
         - id: pks_excluded_range
           name: "PKS Excluded Range"
+          hide: 1  
         - id: pks_nw_gateway
           name: "PKS Gateway"
+          hide: 1  
         - id: pks_tile_system_domain
           name: "PKS Tile System Domain"
+          hide: 1  
         - id: pks_tile_uaa_domain_prefix
           name: "PKS Tile Uaa Domain Prefix"
+          hide: 1  
         - id: pks_tile_system_domain_ip
           name: "PKS Tile System Domain IP"
+          hide: 1  
         - id: pks_tile_cli_user_email
           name: "PKS Tile CLI User Email"
+          hide: 1  
         - id: pks_tile_vm_folder
           name: "PKS Tile VM Folder"
           default: 
-          hide: 1
-      - "PKS Configuration":   
+          hide: 1  
         - id: pks_tile_singleton_job_availability_zone
           name: "PKS Tile Singleton Job Availability Zone Name"
-        - id: pks_tile_nw_availability_zone
-          name: "PKS Tile Availability Zone"
+          hide: 1
+        - id: balance_availability_zone
+          name: "Balance other jobs on"
+          input: dropdown
+          options: compute_az
         - id: pks_tile_deployment_network_name
           name: "PKS Tile Deployment Network Name"
         - id: pks_tile_cluster_service_network_name
           name: "PKS Tile Cluster service Netowrk Name"
         - id: pks_tile_nsx_skip_ssl_verification
           name: "PKS Tile NSX Skip SSL Verification"
+          input: dropdown
+          options:
+            - id: true
+            - id: false
         - id: pks_tile_disable_nsxt_precheck_command
           name: "PKS Tile Cluster service Netowrk Name"
           default: True
@@ -655,12 +686,7 @@
           options: 
             - id: 1
             - id: 2 
-            - id: 3
-        - id: plan_{{ plan_no }}_vm_type_for_master
-          name: "VM Type For Master"
-          input: dropdown
-          options:
-            - id: Default
+            - id: 3        
         - id: plan_{{ plan_no }}_availablity zone_for_master
           name: "Availablity Zone for Master"
           input: dropdown
@@ -671,12 +697,7 @@
           options: 
 {% for count in range(1, 51) %}
             - id: {{ count }}
-{% endfor %}
-        - id: plan_{{ plan_no }}_vm_type_for_worker
-          name: "VM Type For Worker"
-          input: dropdown
-          options:
-            - id: Default
+{% endfor %}        
         - id: plan_{{ plan_no }}_availablity zone_for_worker
           name: "Availablity Zone for Worker"
           input: dropdown
