@@ -56,6 +56,16 @@
           optional: 1
           input: checkbox
           help: "Provisions and configures components of the vCloud NFV reference architecture"
+      - "vSAN Services":
+        - id: deploy_vsan
+          name: "3-4 Node vSAN Cluster"
+          optional: 1
+          input: checkbox
+      - "PKS Services":
+        - id: deploy_pks
+          name: "PKS Services"
+          optional: 1
+          input: checkbox
       - "Infrastructure Services":
         - id: deploy_ambient
           name: "Ambient Services (NTP/DNS/PXE/etc.)"
@@ -226,17 +236,6 @@
           default: 1
           optional: 0
           help: "This is the total number of files that will be uploaded in the user interface. For example, a single application could require separate files for the replication controller and the service, therefore the total number would be two."
-    - "Apps & Services":
-      - "vSAN Services":
-        - id: deploy_vsan
-          name: "3-4 Node vSAN Cluster"
-          optional: 1
-          input: checkbox
-      - "PKS Services":
-        - id: deploy_pks
-          name: "PKS Services"
-          optional: 1
-          input: checkbox
 
     - "vSAN":
       - "Host Information":
