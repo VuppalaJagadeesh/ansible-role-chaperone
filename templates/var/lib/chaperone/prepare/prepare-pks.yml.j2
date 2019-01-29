@@ -92,10 +92,16 @@
           input: password
         - id: vcenter_datacenter
           name: "Datacenter Name"
+          input: dropdown
+          optional: 0
+          options: datacenter_objs 
         - id: vcenter_rp_nsx-t
           name: "vCenter Resource Pool for NSX-T"
         - id: vcenter_mgmgt_pg
           name: "Management Portgroup for NSX-T"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: vcenter_insecure
           name: "vCenter Insecure"
           default: 1
@@ -119,7 +125,7 @@
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
       - "Compute{{ count }} ESXI Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
-          name: "ESXI Compute{{ count }} Host{{ host }} IP"   
+          name: "ESXI Compute{{ count }} Host{{ host }} IP"  
         - id: esxi_compute{{ count }}_host{{ host }}_password
           name: "ESXi Compute{{ count }} Host{{ host }} Root Password"
           input: password
@@ -185,6 +191,9 @@
           input: password
         - id: mgmt_cluster_name
           name: "Management Cluster Name"
+          input: dropdown
+          optional: 0
+          options: cluster_objs
         - id: nsx_controller_defualt_gw
           name: "NSX-T Controller Default Gateway"
         - id: nsx_controller_deployment_size
@@ -233,12 +242,24 @@
           hide: 1
         - id: nsx_edge_management_network_name
           name: "NSX-T Edge Management Network Name"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: nsx_edge_uplink_network_name
           name: "NSX-T Edge Uplink Network Name"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: nsx_edge_overlay_network_name
           name: "NSX-T Edge Overlay Network Name"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: nsx_edge_portgroup_external
           name: "NSX-T Edge Portgroup External"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: nsx_edge_prefix_length
           name: "NSX-T Edge Prefix Length"
         - id: nsx_edge_uplink_profile_vlan_id
@@ -339,6 +360,17 @@
         - id: vtep_ip_pool_end
           name: "VTEP IP Pool End"
 
+      - "Transport Zone- Overlay Information":
+        - id: overlay_transport_zone_name
+          name: "Transport Zone Name"
+          default: "Transport zone-overlay"
+          hide: 1
+        - id: overlay_switch_name
+          name: "Host Switch Name"
+        - id: overlay_transport_type
+          name: "Overlay Transport Type"
+          default: "OVERLAY"
+          hide: 1
       - "Transport Zone Information":
         - id: overlay_transport_zone_name
           name: "Transport Zone Name"
@@ -521,6 +553,9 @@
       - "Ops Manager Configuration":        
         - id: ops_datastore
           name: "Ops Datastore"
+          input: dropdown
+          optional: 0
+          options: datastore_objs 
         - id: ops_username
           name: "Ops Username"
         - id: ops_admin_password
@@ -537,13 +572,22 @@
 {% endif %}                      
         - id: ops_vm_network
           name: "Ops VM Network"
+          input: dropdown
+          optional: 0
+          options: network_objs
         
     - BOSH Config:
       - "Datastore":
         - id: ephemeral_datastore
           name: "Ephemeral Datastore Name"
+          input: dropdown
+          optional: 0
+          options: datastore_objs 
         - id: persistent_datastore
-          name: "Persistent Datastore Name"        
+          name: "Persistent Datastore Name"
+          input: dropdown
+          optional: 0
+          options: datastore_objs         
       - "Management Availability Zone":
         - id: bosh_vm_folder
           name: "Bosh VM Folder"
@@ -589,6 +633,9 @@
           name: "Management Availablity Zone name"
         - id: mgmt_cluster_name
           name:  "Cluster"
+          input: dropdown
+          optional: 0
+          options: cluster_objs
         - id: mgmt_rp
           name: "Resource Pool(optional)"
 {% for az in range(1, (compute_az|int)+1) %}    
@@ -597,6 +644,9 @@
           name: "Compute Availablity Zone {{ az }} Name"
         - id: compute_cluster_name
           name: "Cluster"
+          input: dropdown
+          optional: 0
+          options: cluster_objs
         - id: compute_rp
           name: "Resource Pool(optional)"
 {% endfor %}
@@ -607,6 +657,9 @@
           help: "Example: opsman-network"
         - id: vsphere_network_name_for_main_network
           name: "vSphere Network Name"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: main_network_cidr
           name: "CIDR"
         - id: reserverd_ip_ranges_for_main_network
@@ -621,8 +674,10 @@
           name: "PKS API Hostname(FQDN)"
         - id: pks_username
           name: "PKS CLI Username"
+          hide: 1
         - id: pks_pwd
           name: "PKS CLI Password"
+          hide: 1
         - id: pks_network_name
           name: "PKS Network Name"
           hide: 1  
@@ -661,10 +716,13 @@
           name: "Balance other jobs on"
           input: dropdown
           options: compute_az
+          hide: 1
         - id: pks_tile_deployment_network_name
           name: "PKS Tile Deployment Network Name"
+          hide: 1
         - id: pks_tile_cluster_service_network_name
-          name: "PKS Tile Cluster service Netowrk Name"
+          name: "PKS Tile Cluster service Network Name"
+          hide: 1
         - id: pks_tile_nsx_skip_ssl_verification
           name: "PKS Tile NSX Skip SSL Verification"
           input: dropdown
@@ -707,7 +765,7 @@
             - id: 1
             - id: 2 
             - id: 3        
-        - id: plan_{{ plan_no }}_availablity zone_for_master
+        - id: plan_{{ plan_no }}_availablity_zone_for_master
           name: "Availablity Zone for Master"
           input: dropdown
           options: mgmt_az            
@@ -718,11 +776,14 @@
 {% for count in range(1, 51) %}
             - id: {{ count }}
 {% endfor %}        
-        - id: plan_{{ plan_no }}_availablity zone_for_worker
+        - id: plan_{{ plan_no }}_availablity_zone_for_worker
           name: "Availablity Zone for Worker"
           input: dropdown
           options: compute_az
 {% endfor %}
+
+
+
 
 
 
