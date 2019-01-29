@@ -226,9 +226,140 @@
           default: 1
           optional: 0
           help: "This is the total number of files that will be uploaded in the user interface. For example, a single application could require separate files for the replication controller and the service, therefore the total number would be two."
-- Install:
+---
+- Prepare:
+  - "Chaperone Configuration":
+    - "Apps & Services":
+      - "vSAN Services":
+        - id: deploy_vsan
+          name: "3-4 Node vSAN Cluster"
+          optional: 1
+          input: checkbox
+      - "PKS Services":
+        - id: deploy_pks
+          name: "PKS Services"
+          optional: 1
+          input: checkbox
+
+    - "vSAN":
+      - "Host Information":
+        - id: vsan_hosts
+          name: "Number of Hosts"
+          input: dropdown
+          options:
+            - id: 3
+            - id: 4
+      - "DiskGroup Information":
+        - id: vsan_disk_groups
+          name: "Number of DiskGroups per Host"
+          input: dropdown
+          options:
+            - id: 1
+            - id: 2
+            - id: 3
+            - id: 4
+            - id: 5
+      - "Disk Information":
+        - id: vsan_disks
+          name: "Number of Disks per DiskGroup"
+          input: dropdown
+          options:
+            - id: 2
+            - id: 3
+            - id: 4
+            - id: 5
+            - id: 6
+            - id: 7
+      - "Switch Information":
+        - id: vsan_switch_type
+          name: "Switch Type"
+          input: dropdown
+          options:
+            - id: Standard Switch
+            - id: DV Switch
+      - "vSAN Disk Information":
+        - id: vsan_disk_type
+          name: "Disk Type"
+          input: dropdown
+          options:
+            - id: Hybrid
+            - id: All Flash
+      - "Storage Information":
+        - id: storage_type
+          name: "Storage Type"
+          input: dropdown
+          options:
+            - id: External NFS
+            - id: Local Datastore
+    - "PKS":
+      - "Topology":
+        - id: pks_topology
+          name: "Select the Topology"
+          input: dropdown
+          options:
+            - id: NAT
+            - id: No NAT with Virtual Switches
+            - id: No NAT with Logical Switches
+      - "Availability Zones":
+        - id: compute_az
+          name: "Select the Compute Availability Zones"
+          input: dropdown
+          options:
+            - id: 1
+            - id: 2
+            - id: 3
+      - "PKS Plan":
+        - id: plan
+          name: "Plan"
+          input: dropdown
+          options:
+            - id: 1
+            - id: 2
+            - id: 3
+      - "Routing Plan":
+        - id: routing_plan
+          name: "Routing"
+          input: dropdown
+          options:
+            - id: BGP
+            - id: Static
+
+      - "Nodes to Deploy":
+        - id: no_edge
+          name: "Number of Edge to Deploy"
+          input: dropdown
+          options:
+            - id: 2
+
+
+
+        - id: no_controllers
+          name: "Number of Controllers to Deploy"
+          input: dropdown
+          options:
+            - id: 1
+            - id: 3
+
+      - "Clusters":
+        - id: no_compute_cluster
+          name: "Number of Compute Clusters"
+        - id: no_hosts_per_compute_cluster
+          name: "Number of Hosts Per Compute Cluster"
+        - id: no_hosts_per_mgmt_cluster
+          name: "Number of Hosts per Management Cluster"
+      - "Datastores":
+        - id: names_of_mgmt_datastore
+          name: "Names of Management Datastore"
+          help: "Example:Mgmt-ds1,Mgmt-ds2"
+        - id: names_of_compute_datastore
+          name: "Names of Compute Datastore"
+          help: "Example:Compute-ds1,Compute-ds2"
+
+
+- Publish Configuration:
   - Chaperone Configuration:
     - id: config_chaperone
       name: Save Chaperone config
       commands:
-        - "/opt/{{ django_app }}/{{ django_app }}-admin_play_tags primaryweb.yml uiconfig"
+        - "/opt/chaperone/chaperone-admin_play_tags primaryweb.yml uiconfig"
+
