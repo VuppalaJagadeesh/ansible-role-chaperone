@@ -92,16 +92,10 @@
           input: password
         - id: vcenter_datacenter
           name: "Datacenter Name"
-          input: dropdown
-          optional: 0
-          options: datacenter_objs 
         - id: vcenter_rp_nsx-t
           name: "vCenter Resource Pool for NSX-T"
         - id: vcenter_mgmgt_pg
           name: "Management Portgroup for NSX-T"
-          input: dropdown
-          optional: 0
-          options: network_objs
         - id: vcenter_insecure
           name: "vCenter Insecure"
           default: 1
@@ -125,7 +119,7 @@
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
       - "Compute{{ count }} ESXI Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
-          name: "ESXI Compute{{ count }} Host{{ host }} IP"  
+          name: "ESXI Compute{{ count }} Host{{ host }} IP"   
         - id: esxi_compute{{ count }}_host{{ host }}_password
           name: "ESXi Compute{{ count }} Host{{ host }} Root Password"
           input: password
@@ -262,8 +256,7 @@
           options: network_objs
         - id: nsx_edge_prefix_length
           name: "NSX-T Edge Prefix Length"
-        - id: nsx_edge_uplink_profile_vlan_id
-          name: "NSX-T Edge Uplink Profile VLAN ID"
+
 
 
     - NSX-T Configuration:
@@ -293,12 +286,7 @@
           default: "LinkedPort_Tier-0"
           hide: 1
         
-{% if routing_plan == 'BGP' %}
-        - id: t0_router_asynchronous _system
-          name: "T0 Router Asynchronous System"
-        - id: t0_router_next_neighbour
-          name: "T0 Router Next Neighbour"
-{% endif %}
+
 
       - "TIER-1 Router Details":
         - id: t1_router_name
@@ -360,17 +348,6 @@
         - id: vtep_ip_pool_end
           name: "VTEP IP Pool End"
 
-      - "Transport Zone- Overlay Information":
-        - id: overlay_transport_zone_name
-          name: "Transport Zone Name"
-          default: "Transport zone-overlay"
-          hide: 1
-        - id: overlay_switch_name
-          name: "Host Switch Name"
-        - id: overlay_transport_type
-          name: "Overlay Transport Type"
-          default: "OVERLAY"
-          hide: 1
       - "Transport Zone Information":
         - id: overlay_transport_zone_name
           name: "Transport Zone Name"
@@ -486,9 +463,7 @@
           name: "Source IP"
         - id: snat_translated_ip_for_opsmgr
           name: "Translated IP"
-        - id: snat_priority_for_opsmgr
-          name: "Priority"
-    
+
       - "DNAT For Ops Manager":
         - id: dnat_type_for_opsmgr
           name: "Action"
@@ -498,8 +473,7 @@
           name: "Destination IP"
         - id: dnat_translated_ip_for_opsmgr
           name: "Translated IP"
-        - id: dnat_priority_for_opsmgr
-          name: "Priority"
+
 
       - "SNAT For vCenter/NSX Manager":
         - id: snat_type_for_vcenter_nsx
@@ -510,8 +484,7 @@
           name: "Source IP"
         - id: snat_translated_ip_for_vcenter
           name: "Translated IP"
-        - id: snat_priority_for_vcenter
-          name: "Priority"
+
       - "DNAT For vCenter/NSX Manager":
         - id: dnat_type_for_vcenter_nsx
           name: "Action"
@@ -521,8 +494,7 @@
           name: "Destination IP"
         - id: dnat_translated_ip_for_vcenter
           name: "Translated IP"
-        - id: dnat_priority_for_vcenter
-          name: "Priority"
+
       - "SNAT For ESXi":
         - id: snat_type_for_esxi
           name: "Action"
@@ -532,8 +504,7 @@
           name: "Source IP"
         - id: snat_translated_ip_for_esxi
           name: "Translated IP"
-        - id: snat_priority_for_esxi
-          name: "Priority"
+
       - "DNAT For ESXi":
         - id: dnat_type_for_esxi
           name: "Action"
@@ -543,8 +514,7 @@
           name: "Destination IP"
         - id: dnat_translated_ip_for_esxi
           name: "Translated IP"
-        - id: dant_priority_for_esxi
-          name: "Priority"   
+  
 {% endif %}
 
 
@@ -587,7 +557,7 @@
           name: "Persistent Datastore Name"
           input: dropdown
           optional: 0
-          options: datastore_objs         
+          options: datastore_objs        
       - "Management Availability Zone":
         - id: bosh_vm_folder
           name: "Bosh VM Folder"
@@ -717,11 +687,12 @@
           input: dropdown
           options: compute_az
           hide: 1
+
         - id: pks_tile_deployment_network_name
           name: "PKS Tile Deployment Network Name"
           hide: 1
         - id: pks_tile_cluster_service_network_name
-          name: "PKS Tile Cluster service Network Name"
+          name: "PKS Tile Cluster service Netowrk Name"
           hide: 1
         - id: pks_tile_nsx_skip_ssl_verification
           name: "PKS Tile NSX Skip SSL Verification"
@@ -765,7 +736,7 @@
             - id: 1
             - id: 2 
             - id: 3        
-        - id: plan_{{ plan_no }}_availablity_zone_for_master
+        - id: plan_{{ plan_no }}_availablity zone_for_master
           name: "Availablity Zone for Master"
           input: dropdown
           options: mgmt_az            
@@ -776,14 +747,11 @@
 {% for count in range(1, 51) %}
             - id: {{ count }}
 {% endfor %}        
-        - id: plan_{{ plan_no }}_availablity_zone_for_worker
+        - id: plan_{{ plan_no }}_availablity zone_for_worker
           name: "Availablity Zone for Worker"
           input: dropdown
           options: compute_az
 {% endfor %}
-
-
-
 
 
 

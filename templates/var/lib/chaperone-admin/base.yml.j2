@@ -111,7 +111,6 @@
           name: "Routing"
           input: dropdown
           options:
-            - id: BGP
             - id: Static
 
       - "Nodes to Deploy":
@@ -131,15 +130,11 @@
           name: "Number of Compute Clusters"
         - id: no_hosts_per_compute_cluster
           name: "Number of Hosts Per Compute Cluster"
-        - id: no_hosts_per_mgmt_cluster
-          name: "Number of Hosts per Management Cluster"
+
       - "Datastores":
         - id: names_of_mgmt_datastore
           name: "Names of Management Datastore"
           help: "Example:Mgmt-ds1,Mgmt-ds2"
-        - id: names_of_compute_datastore
-          name: "Names of Compute Datastore"
-          help: "Example:Compute-ds1,Compute-ds2"
 
 
 - Publish Configuration:
