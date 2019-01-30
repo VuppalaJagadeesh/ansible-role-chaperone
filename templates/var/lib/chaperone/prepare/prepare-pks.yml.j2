@@ -165,9 +165,9 @@
           name: "NSX-T Manager Deployment Size"
           input: dropdown            
           options:
-            - id: small
-            - id: medium
-            - id: large
+            - id: SMALL
+            - id: MEDIUM
+            - id: LARGE
         - id: nsx_manager_defualt_gateway
           name: "NSX-T Manager Default Gateway"
         - id: nsx_manager_subnetmask
@@ -200,9 +200,9 @@
           name: "NSX-T Controller Deployment Size"
           input: dropdown            
           options:
-            - id: small
-            - id: medium
-            - id: large
+            - id: SMALL
+            - id: MEDIUM
+            - id: LARGE
         - id: nsx_controller_shared_secret
           name: "NSX-T Controller Shared Secret"
           input: password
@@ -234,7 +234,7 @@
           name: "NSX-T Edge Deployment Size"
           input: dropdown
           options:
-            - id: large
+            - id: LARGE
           hide: 1
         - id: nsx_edge_cluster_profile_name
           name: "NSX-T Edge Cluster Profile Name"
@@ -282,10 +282,6 @@
         - id: t0_router_type
           name: "T0 Router Type"
           default: "TIER0"
-          hide: 1
-        - id: edge_cluster_member_index
-          name: "Edge Cluster Member Index"
-          default: 0
           hide: 1
         - id: t0_link_port_name
           name: "T0 Link Port Name"
