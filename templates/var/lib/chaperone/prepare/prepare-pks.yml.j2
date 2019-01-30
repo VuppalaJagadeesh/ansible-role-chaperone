@@ -92,10 +92,16 @@
           input: password
         - id: vcenter_datacenter
           name: "Datacenter Name"
+          input: dropdown
+          optional: 0
+          options: datacenter_objs
         - id: vcenter_rp_nsx-t
           name: "vCenter Resource Pool for NSX-T"
         - id: vcenter_mgmgt_pg
           name: "Management Portgroup for NSX-T"
+          input: dropdown
+          optional: 0
+          options: network_objs
         - id: vcenter_insecure
           name: "vCenter Insecure"
           default: 1
@@ -319,6 +325,8 @@
           name: "Node IP Block CIDR"
         - id: pod_ip_block_name
           name: "Pod IP Block Name"
+          default: "Pod IP Block"
+          hide: 1
         - id: pod_ip_block_cidr
           name: "Pod IP Block CIDR"
 
