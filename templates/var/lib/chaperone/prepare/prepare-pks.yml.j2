@@ -3,81 +3,114 @@
       - "Infrastructure":
         - id: ntp_servers
           name: "NTP Servers"
+          type: ipaddress
         - id: dns_server
           name: "DNS Server"
+          type: ipaddress
         - id: dns_domain
           name: "DNS Domain"
+          type: none
     - Network:
       - "Management Network":
         - id: management_vlan_id
           name: "VLAN ID"
+          type: none
         - id: management_subnet_mask
           name: "Subnet Mask"
+          type: subnetmask
         - id: management_gw
           name: "Default Gateway"
+          type: ipaddress
         - id: management_start_ip
           name: "Start IP"
+          type: ipaddress
         - id: management_end_ip
           name: "End IP"
+          type: ipaddress
       - "vMotion Network":
         - id: vmotion_vlan_id
           name: "VLAN ID"
+          type: none
         - id: vmotion_subnet_mask
           name: "Subnet Mask"
+          type: subnetmask
         - id: vmotion_gw
           name: "Default Gateway"
+          type: ipaddress
         - id: vmotion_start_ip
           name: "Start IP"
+          type: ipaddress
         - id: vmotion_end_ip
           name: "End IP"
+          type: ipaddress
       - "Storage Network":
         - id: storage_vlan_id
           name: "VLAN ID"
+          type: none
         - id: storage_subnet_mask
           name: "Subnet Mask"
+          type: subnetmask
         - id: storage_gw
           name: "Default Gateway"
+          type: ipaddress
         - id: storage_start_ip
           name: "Start IP"
+          type: ipaddress
         - id: storage_end_ip
           name: "End IP"
+          type: ipaddress
       - "Corporate/External Network":
         - id: management_vlan_id
           name: "VLAN ID"
+          type: none
         - id: management_subnet_mask
           name: "Subnet Mask"
+          type: subnetmask
         - id: management_gw
           name: "Default Gateway"
+          type: ipaddress
         - id: management_start_ip
           name: "Start IP"
+          type: ipaddress
         - id: management_end_ip
           name: "End IP"
+          type: ipaddress
       - "Tunnel Network":
         - id: management_vlan_id
           name: "VLAN ID"
+          type: none
         - id: management_subnet_mask
           name: "Subnet Mask"
+          type: subnetmask
         - id: management_gw
           name: "Default Gateway"
+          type: ipaddress
         - id: management_start_ip
           name: "Start IP"
+          type: ipaddress
         - id: management_end_ip
           name: "End IP"
+          type: ipaddress
     - Certificates Information:
       - "NSX-T Certificate":
         - id: nsxt_cert_org_name
           name: "Org Name"
+          type: none
         - id: nsxt_cert_country
           name: "Country"
+          type: none
         - id: nsxt_cert_city
           name: "City/State"
+          type: none
         - id: nsxt_pks_superuser_name
           name: "PKS SuperUser"
+          type: none
           default: "nsxt_pks_superuser"
           hide: 1
         - id: nsxt_cert_name
           name: "NSXT SelfSigned Certificate Name"
           default: "nsxt_selfsigned_cert"
+          type: none
           hide: 1
 
 
@@ -85,37 +118,47 @@
       - "vCenter Config":
         - id: vcenter_host_ip
           name: "vCenter Host Ip address"
+          type: ipaddress
         - id: vcenter_user
           name: "vCenter User Name"
+          type: none
         - id: vcenter_pwd
           name: "vCenter Password"
           input: password
+          type: none
         - id: vcenter_datacenter
           name: "Datacenter Name"
+          type: none
           input: dropdown
           optional: 0
           options: datacenter_objs
         - id: vcenter_rp_nsx-t
           name: "vCenter Resource Pool for NSX-T"
+          type: none
         - id: vcenter_mgmgt_pg
           name: "Management Portgroup for NSX-T"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: vcenter_insecure
           name: "vCenter Insecure"
+          type: none
           default: 1
           hide: 1
         - id: validate_certs
           name: "Validate_certs"
+          type: none
           default: "False"
           hide: 1
         - id: esxi_username
           name: "ESXI Username"
+          type: none
           default: "root"
           hide: 1
         - id: os_type
           name: "OS Type"
+          type: none
           default: "ESXI"
           hide: 1
 
@@ -125,44 +168,54 @@
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
       - "Compute{{ count }} ESXI Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
-          name: "ESXI Compute{{ count }} Host{{ host }} IP"   
+          name: "ESXI Compute{{ count }} Host{{ host }} IP"
+          type: ipaddress   
         - id: esxi_compute{{ count }}_host{{ host }}_password
           name: "ESXi Compute{{ count }} Host{{ host }} Root Password"
+          type: none
           input: password
         - id: esxi_compute{{ count }}_host{{ host }}_os_version
           name: "ESXI Compute{{ count }} Host{{ host }} OS Version"
+          type: none
         - id: esxi_compute{{ count }}_host{{ host }}_vmnic
           name: "ESXI Compute{{ count }} Host{{ host }} Available vmnic for NSX-T"
+          type: none
 {% endfor %}
 {% endfor %}
     - NSX-T Deployment:
       - "NSX-T Manager":
         - id: nsx_manager_host_name
-          name: "NSX-T Manager Host Name"
-          default: "NSX-T Manager_New"
-          hide: 1
+          name: "NSX-T Manager FQDN"
+          type: none
         - id: nsx_manager_vm_name
           name: "NSX-T Manager VM Name"
+          type: none
           default: "NSX-T Manager"
           hide: 1
         - id: nsx_compute_manager_name
           name: "NSX-T Compute Manager Name"
+          type: none
           default: "vCenter-Server"
           hide: 1
         - id: nsx_manager_username
           name: "NSX-T Manager Username"
+          type: none
           default: "admin"
           hide: 1
         - id: nsx_manager_ip
           name: "NSX-T Manager IP"
+          type: ipaddress
         - id: nsx_manager_cli_pwd
           name: "NSX-T Manager CLI Password"
+          type: none
           input: password
         - id: nsx_manager_root_pwd
           name: "NSX-T Manager Root Password"
+          type: none
           input: password
         - id: nsx_manager_deployment_size
           name: "NSX-T Manager Deployment Size"
+          type: none
           input: dropdown            
           options:
             - id: SMALL
@@ -170,34 +223,43 @@
             - id: LARGE
         - id: nsx_manager_defualt_gateway
           name: "NSX-T Manager Default Gateway"
+          type: ipaddress
         - id: nsx_manager_subnetmask
           name: "NSX-T Manager Subnet Mask"
+          type: subnetmask
 
       - "NSX-T Controllers":
 {% for count in range(1, (no_controllers|int)+1) %}
         - id: nsx_controller{{count}}_ip
           name: "NSX-T Controller {{count}} IP"
+          type: ipaddress
         - id: nsx_controller{{count}}_host_name
           name: "NSX-T Controller {{count}} Host Name"
+          type: none
           default: "Controller{{count}}"
           hide: 1
 {% endfor %}
 
         - id: nsx_controller_root_pwd
           name: "NSX-T Controller Root Password"
+          type: none
           input: password
         - id: nsx_controller_cli_pwd
           name: "NSX-T Controller CLI Password"
+          type: none
           input: password
         - id: mgmt_cluster_name
           name: "Management Cluster Name"
+          type: none
           input: dropdown
           optional: 0
           options: cluster_objs
         - id: nsx_controller_defualt_gw
           name: "NSX-T Controller Default Gateway"
+          type: ipaddress
         - id: nsx_controller_deployment_size
           name: "NSX-T Controller Deployment Size"
+          type: none
           input: dropdown            
           options:
             - id: SMALL
@@ -205,63 +267,80 @@
             - id: LARGE
         - id: nsx_controller_shared_secret
           name: "NSX-T Controller Shared Secret"
+          type: none
           input: password
         - id: nsx_controller_prefix_length
           name: "NSX-T Controller Prefix Length"
+          type: none
 
       - "NSX-T Edge":
 {% for count in range(1, (no_edge|int)+1) %}
         - id: nsx_edge{{count}}_ip
           name: "NSX-T Edge {{count}} IP"
+          type: ipaddress
         - id: nsx_edge{{count}}_host_name
           name: "NSX-T Edge {{count}} Host Name"
+          type: none
           default: "Edge{{count}}"
           hide: 1
 {% endfor %}
         - id: nsx_edge_root_pwd
           name: "NSX-T Edge Root Password"
+          type: none
           input: password
         - id: nsx_edge_cli_pwd
           name: "NSX-T Edge CLI Password"
+          type: none
           input: password
         - id: nsx_edge_cluster_name
           name: "Edge Cluster Name"
+          type: none
           default: "Edge-cluster"
           hide: 1
         - id: nsx_edge_defualt_gw
           name: "NSX-T Edge Default Gateway"
+          type: ipaddress
         - id: nsx_edge_deployment_size
           name: "NSX-T Edge Deployment Size"
+          type: none
           input: dropdown
           options:
+            - id: SMALL
+            - id: MEDIUM
             - id: LARGE
-          hide: 1
+
         - id: nsx_edge_cluster_profile_name
           name: "NSX-T Edge Cluster Profile Name"
+          type: none
           default: "nsx-default-edge-high-availability-profile"
           hide: 1
         - id: nsx_edge_management_network_name
           name: "NSX-T Edge Management Network Name"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: nsx_edge_uplink_network_name
           name: "NSX-T Edge Uplink Network Name"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: nsx_edge_overlay_network_name
           name: "NSX-T Edge Overlay Network Name"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: nsx_edge_portgroup_external
           name: "NSX-T Edge Portgroup External"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: nsx_edge_prefix_length
           name: "NSX-T Edge Prefix Length"
+          type: none
 
 
 
@@ -269,22 +348,28 @@
       - "TIER-0 Router Details":
         - id: t0_router_name
           name: "T0 Router Name"
+          type: none
           default: "T0-router"
           hide: 1
         - id: t0_router_port_ip
           name: "T0 Router Port IP"
+          type: ipaddress
         - id: t0_router_port_display_name
           name: "T0 Router Port Display name"
+          type: none
           default: "logical router port-0"
           hide: 1
         - id: t0_router_port_prefix_length
           name: "T0 Router Port Prefix Length"
+          type: none
         - id: t0_router_type
           name: "T0 Router Type"
+          type: none
           default: "TIER0"
           hide: 1
         - id: t0_link_port_name
           name: "T0 Link Port Name"
+          type: none
           default: "LinkedPort_Tier-0"
           hide: 1
         
@@ -293,96 +378,124 @@
       - "TIER-1 Router Details":
         - id: t1_router_name
           name: "T1 Router Name"
+          type: none
           default: "T1-router"
           hide: 1
         - id: t1_router_port_ip
           name: "T1 Router Port IP"
+          type: ipaddress
         - id: t1_router_port_display_name
           name: "T1 Router Port Display name"
+          type: none
           default: "logical router port-1"
           hide: 1
         - id: t1_router_port_prefix_length
           name: "T1 Router Port Prefix Length"
+          type: none
         - id: t1_router_type
           name: "T1 Router Type"
+          type: none
           default: "TIER1"
           hide: 1
         - id: t1_link_port_name
           name: "T1 Link Port Name"
+          type: none
           default: "LinkedPort_Tier-1"
           hide: 1
 
       - "Container IP Block Specification":
         - id: node_ip_block_name
           name: "Node IP Block Name"
+          type: none
           default: "Node IP Block"
           hide: 1
         - id: node_ip_block_cidr
           name: "Node IP Block CIDR"
+          type: none
         - id: pod_ip_block_name
           name: "Pod IP Block Name"
+          type: none
           default: "Pod IP Block"
           hide: 1
         - id: pod_ip_block_cidr
           name: "Pod IP Block CIDR"
+          type: none
 
       - "VIP Pool Specification":
         - id: lb_ip_pool_name
           name: "LB IP Pool Name"
+          type: none
           default: "Load Balancer IP Pool"
           hide: 1
+          type: none
         - id: lb_ip_pool_cidr
           name: "LB IP Pool CIDR"
+          type: none
         - id: lb_ip_pool_start
           name: "LB IP Pool Start"
+          type: ipaddress
         - id: lb_ip_pool_end
           name: "LB IP Pool End"
+          type: ipaddress
 
       - "VTEP Pool Specification":
         - id: vtep_ip_pool_name
           name: VTEP IP Pool Name
+          type: none
           default: "VTEP IP Pool"
           hide: 1
         - id: vtep_ip_pool_cidr
           name: "VTEP IP Pool CIDR"
+          type: none
         - id: vtep_ip_pool_gw
           name: "VTEP IP Pool Gateway"
+          type: ipaddress
         - id: vtep_ip_pool_start
           name: "VTEP IP Pool Start"
+          type: ipaddress
         - id: vtep_ip_pool_end
           name: "VTEP IP Pool End"
+          type: ipaddress
 
       - "Transport Zone Information":
         - id: overlay_transport_zone_name
           name: "Transport Zone Name"
+          type: none
           default: "Transport zone-overlay"
           hide: 1
         - id: overlay_switch_name
           name: "Host Switch Name"
+          type: none
           default: "hostswitch1"
           hide: 1
         - id: overlay_transport_type
           name: "Overlay Transport Type"
+          type: none
           default: "OVERLAY"
           hide: 1
         - id: vlan_transport_zone_name
           name: "Transport Zone Name"
+          type: none
           default: "Transport zone-VLAN"
           hide: 1
         - id: vlan_switch_name
           name: "Host Switch Name"
+          type: none
           default: "hostswitch2"
           hide: 1
         - id: vlan_transport_type
           name: "VLAN Transport Type"
+          type: none
           default: "VLAN"
           hide: 1
         - id: transport_valn_id
           name: "Transport VLAN Id"
+          type: none
 
 {% for count in range(1, (no_compute_cluster_name|int)+1) %}
         - id: check_compute_cluster{{count}}
           name: "Compute Cluster {{ count }}"
+          type: none
           input: checkbox
           default: 1
           hide: 1
@@ -390,67 +503,83 @@
 {% for count in range(1, (no_edge|int)+1) %}
         - id: nsx_edge_tn_node{{count}}_name
           name: "Edge TN Node{{count}} Name"
+          type: none
           default: "Edge Node{{count}}"
           hide: 1
         - id: check_edge_node{{count}}
           name: NSX-T Edge{{count}}
+          type: none
           input: checkbox
           default: 1
           hide: 1
 {% endfor %}
         - id: nsx_edge_tn_second_network
           name: "Edge TN Second Network"
+          type: none
           default: "fp-eth0"
           hide: 1
         - id: nsx_edge_tn_third_network
           name: "Edge TN Third Network"
+          type: none
           default: "fp-eth1"
           hide: 1
 
         - id: uplink_profile1_name
           name: "Uplink Profile1 name"
+          type: none
           default: "UplinkProfile"
           hide: 1
         - id: uplink_mtu_value
           name: "Uplink MTU "
+          type: none
           default: 1600
           hide: 1
         - id: uplink1_name
           name: "Uplink1 Name"
+          type: none
           default: "uplink-1"
           hide: 1
         - id: uplink2_name
           name: "Uplink2 Name"
+          type: none
           default: "uplink-2"
           hide: 1
 
       - "Logical Switches":
         - id: logical_switch_for_overlay_network
           name: "Logical Switch for Overlay Network Name"
+          type: none
           default: "Logical Overlay Switch"
           hide: 1
         - id: logical_switch_for_vlan_network
           name: "Logical Switch for VLAN Network Name"
+          type: none
           default: "Logical VLAN Switch"
           hide: 1
         - id: logical_switch_vlan_id
           name: "Logical Switch VLAN ID"
+          type: none
         - id: logical_port_for_overlay
           name: "Logical Port for Overlay Switch Name"
+          type: none
           default: "Logical Port_Overlay"
           hide: 1
         - id: logical_port_for_vlan
           name: "Logical Port for VLAN Switch Name"
+          type: none
           default: "Logical Port_VLAN"
           hide: 1
 {% if routing_plan == 'Static' %}
       - "Static Route":
         - id: logical_router_t0_static_route_ip
           name: "T0 Static Next Hop IP Address"
+          type: ipaddress
         - id: logical_router_t0_static_route_network
           name: "T0 Static Route Network"
+          type: none
         - id: administrative_distance
           name: "Administrative Distance"
+          type: none
           default: 1
           hide: 1
 {% endif %}
@@ -461,63 +590,81 @@
       - "SNAT For Ops Manager":
         - id: snat_type_for_opsmgr
           name: "Action"
+          type: none
           default: "SNAT"
           hide: 1
         - id: snat_source_ip_for_opsmgr
           name: "Source IP"
+          type: ipaddress
         - id: snat_translated_ip_for_opsmgr
           name: "Translated IP"
+          type: ipaddress
 
       - "DNAT For Ops Manager":
         - id: dnat_type_for_opsmgr
           name: "Action"
+          type: none
           default: "DNAT"
           hide: 1
         - id: dnat_destination_ip_for_opsmgr
           name: "Destination IP"
+          type: ipaddress
         - id: dnat_translated_ip_for_opsmgr
           name: "Translated IP"
+          type: ipaddress
 
 
-      - "SNAT For vCenter/NSX Manager":
-        - id: snat_type_for_vcenter_nsx
+      - "SNAT For vCenter":
+        - id: snat_type_for_vcenter
           name: "Action"
+          type: none
           default: "SNAT"
           hide: 1
         - id: snat_source_ip_for_vcenter
           name: "Source IP"
+          type: ipaddress
         - id: snat_translated_ip_for_vcenter
           name: "Translated IP"
+          type: ipaddress
 
-      - "DNAT For vCenter/NSX Manager":
-        - id: dnat_type_for_vcenter_nsx
+      - "DNAT For vCenter":
+        - id: dnat_type_for_vcenter
           name: "Action"
+          type: none
           default: "DNAT"
           hide: 1
         - id: dnat_destination_ip_for_vcenter
           name: "Destination IP"
+          type: ipaddress
         - id: dnat_translated_ip_for_vcenter
           name: "Translated IP"
+          type: ipaddress
 
       - "SNAT For ESXi":
         - id: snat_type_for_esxi
           name: "Action"
+          type: none
           default: "SNAT"
           hide: 1
         - id: snat_source_ip_for_esxi
           name: "Source IP"
+          type: ipaddress
         - id: snat_translated_ip_for_esxi
           name: "Translated IP"
+          type: ipaddress
 
       - "DNAT For ESXi":
         - id: dnat_type_for_esxi
           name: "Action"
+          type: none
           default: "DNAT"
           hide: 1
         - id: dnat_destination_ip_for_esxi
           name: "Destination IP"
+          type: ipaddress
         - id: dnat_translated_ip_for_esxi
           name: "Translated IP"
+          type: ipaddress
   
 {% endif %}
 
@@ -527,25 +674,32 @@
       - "Ops Manager Configuration":        
         - id: ops_datastore
           name: "Ops Datastore"
+          type: none
           input: dropdown
           optional: 0
           options: datastore_objs 
         - id: ops_username
           name: "Ops Username"
+          type: none
         - id: ops_admin_password
           name: "Ops Admin Password"
+          type: none
           input: password        
         - id: ops_decryption_password
           name: "Ops Decryption Passphrase"
           input: password        
+          type: none
         - id: ops_ip
           name: "Ops IP"
+          type: ipaddress
 {% if pks_topology == 'NAT' %}
         - id: ops_gw
           name: "Ops Gateway"
+          type: ipaddress
 {% endif %}                      
         - id: ops_vm_network
           name: "Ops VM Network"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
@@ -554,178 +708,224 @@
       - "Datastore":
         - id: ephemeral_datastore
           name: "Ephemeral Datastore Name"
+          type: none
           input: dropdown
           optional: 0
           options: datastore_objs 
         - id: persistent_datastore
           name: "Persistent Datastore Name"
+          type: none
           input: dropdown
           optional: 0
           options: datastore_objs        
       - "Management Availability Zone":
         - id: bosh_vm_folder
           name: "Bosh VM Folder"
+          type: none
           default: "pks_vms"
           hide: 1
         - id: bosh_template_folder
           name: "Bosh Template Folder"
+          type: none
           default: "pks_templates"
           hide: 1 
         - id: bosh_disk_path
           name: "Bosh Disk Path"
+          type: none
           default: "pks_disk"
           hide: 1 
         - id: bosh_vm_disk_type
           name: "VM Disk Type"
+          type: none
           default: "thin"
           hide: 1 
         - id: bosh_enable_vm_resurrector
           name: "Enable VM Resurrector"
+          type: none
           default: true
           hide: 1
         - id: bosh_max_threads
           name: "Max Threads"
+          type: none
           default: 20
           hide: 1
         - id: icmp_checks_enabled
           name: "ICMP Check Enabled"
+          type: none
           default: false
           hide: 1
         - id: icmp_checks_enabled
           name: "ICMP Check Enabled"
+          type: none
           default: false
           hide: 1        
         - id: nsx_networking_enabled
           name: "NSX Networking Enabled"
+          type: none
           default: True
           hide: 1
         - id: nsx_mode
           name: "NSX Mode"
+          type: none
           default: nsx-t
           hide: 1
         - id: mgmt_az_name
           name: "Management Availablity Zone name"
+          type: none
         - id: mgmt_cluster_name
           name:  "Cluster"
+          type: none
           input: dropdown
           optional: 0
           options: cluster_objs
         - id: mgmt_rp
           name: "Resource Pool(optional)"
+          type: none
 {% for az in range(1, (compute_az|int)+1) %}    
       - "Compute Availablity Zone {{ az }}":
         - id: compute_az_{{ az }}_name 
           name: "Compute Availablity Zone {{ az }} Name"
+          type: none
         - id: compute_cluster_name
           name: "Cluster"
+          type: none
           input: dropdown
           optional: 0
           options: cluster_objs
         - id: compute_rp
           name: "Resource Pool(optional)"
+          type: none
 {% endfor %}
 
       - "Main Network":
         - id: main_network_name
           name: "Network Name"
+          type: none
           help: "Example: opsman-network"
         - id: vsphere_network_name_for_main_network
           name: "vSphere Network Name"
+          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: main_network_cidr
           name: "CIDR"
+          type: none
         - id: reserverd_ip_ranges_for_main_network
-          name: "Reserved IP Ranges(optional)"        
+          name: "Reserved IP Ranges(optional)"   
+          type: none     
         - id: gateway_for_main_network
           name: "Gateway"
+          type: ipaddress
 
 
     - PKS Tile:
       - "PKS Configuration": 
         - id: pks_api_hostname
           name: "PKS API Hostname(FQDN)"
+          type: none
         - id: pks_username
           name: "PKS CLI Username"
+          type: none
           hide: 1
         - id: pks_pwd
           name: "PKS CLI Password"
+          type: none
           hide: 1
         - id: pks_network_name
           name: "PKS Network Name"
+          type: none
           hide: 1  
         - id: pks_vsphere_network_name
           name: "PKS vSphere Network Name"
+          type: none
           hide: 1  
         - id: pks_nw_cidr
           name: "PKS CIDR"
+          type: none
           hide: 1  
         - id: pks_excluded_range
           name: "PKS Excluded Range"
+          type: none
           hide: 1  
         - id: pks_nw_gateway
           name: "PKS Gateway"
+          type: ipaddress
           hide: 1  
         - id: pks_tile_system_domain
           name: "PKS Tile System Domain"
+          type: none
           hide: 1  
         - id: pks_tile_uaa_domain_prefix
           name: "PKS Tile Uaa Domain Prefix"
+          type: none
           hide: 1  
         - id: pks_tile_system_domain_ip
           name: "PKS Tile System Domain IP"
+          type: ipaddress
           hide: 1  
         - id: pks_tile_cli_user_email
           name: "PKS Tile CLI User Email"
+          type: none
           hide: 1  
         - id: pks_tile_vm_folder
           name: "PKS Tile VM Folder"
+          type: none
           default: 
           hide: 1  
         - id: pks_tile_singleton_job_availability_zone
           name: "PKS Tile Singleton Job Availability Zone Name"
+          type: none
           hide: 1
         - id: balance_availability_zone
           name: "Balance other jobs on"
+          type: none
           input: dropdown
           options: compute_az
           hide: 1
 
         - id: pks_tile_deployment_network_name
           name: "PKS Tile Deployment Network Name"
+          type: none
           hide: 1
         - id: pks_tile_cluster_service_network_name
-          name: "PKS Tile Cluster service Netowrk Name"
+          name: "PKS Tile Cluster service Network Name"
+          type: none
           hide: 1
         - id: pks_tile_nsx_skip_ssl_verification
           name: "PKS Tile NSX Skip SSL Verification"
+          type: none
           input: dropdown
           options:
             - id: true
             - id: false
         - id: pks_tile_disable_nsxt_precheck_command
           name: "PKS Tile Cluster service Netowrk Name"
+          type: none
           default: True
           hide: 1
         - id: pks_tile_nsx_nat_mode
           name: "PKS Tile NSX NAT Mode"
+          type: none
           input: dropdown
           options:
             - id: true
             - id: false
         - id: errand_vm_type
           name: "Errand VM Type"
+          type: none
           default: micro
           hide: 1
         - id: allow_privileged_containers
           name: "Allow Privileged Containers"
+          type: none
           input: dropdown
           options:
             - id: false
             - id: true
         - id: is_active_plan
           name: "Is Active Plan"
+          type: none
           default: true
           hide: 1
 
@@ -733,8 +933,10 @@
       - "Plan{{plan_no}} Structure":
         - id: plan_{{ plan_no }}_name
           name: "Plan Name"
+          type: none
         - id: plan_{{ plan_no }}_master_nodes
           name: "Number of Master Node"
+          type: none
           input: dropdown
           options: 
             - id: 1
@@ -742,10 +944,12 @@
             - id: 3        
         - id: plan_{{ plan_no }}_availablity zone_for_master
           name: "Availablity Zone for Master"
+          type: none
           input: dropdown
           options: mgmt_az            
         - id: plan_{{ plan_no }}_worker_nodes
           name: "Number of Worker Node"
+          type: none
           input: dropdown
           options: 
 {% for count in range(1, 51) %}
@@ -753,6 +957,7 @@
 {% endfor %}        
         - id: plan_{{ plan_no }}_availablity zone_for_worker
           name: "Availablity Zone for Worker"
+          type: none
           input: dropdown
           options: compute_az
 {% endfor %}
