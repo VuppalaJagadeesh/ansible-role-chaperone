@@ -22,4 +22,8 @@
     - id: deploy_pks
       name: "Deploy PKS "
       commands:
+{% if pks_topology == 'NAT' %}
+        - "/opt/{{ django_app }}/{{ django_app }}_play pks.yml --tags pks_deploy_nat"
+{% else %}
         - "/opt/{{ django_app }}/{{ django_app }}_play pks.yml --tags pks_deploy"
+{% endif %}

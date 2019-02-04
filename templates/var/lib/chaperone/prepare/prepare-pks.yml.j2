@@ -166,7 +166,7 @@
 
 {% for count in range(1, (no_compute_cluster_name|int)+1) %}
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
-      - "Compute{{ count }} ESXI Host{{ host }} Information":
+      - "Compute{{ count }} ESXi Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
           name: "ESXi Compute{{ count }} Host{{ host }} IP"
           type: ipaddress   
@@ -645,34 +645,29 @@
 
 
 
+
+
     - Ops Manager:
       - "Ops Manager Configuration":        
         - id: ops_datastore
           name: "Ops Datastore"
-          type: none
           input: dropdown
           optional: 0
           options: datastore_objs 
         - id: ops_username
           name: "Ops Username"
-          type: none
         - id: ops_admin_password
           name: "Ops Admin Password"
-          type: none
           input: password        
         - id: ops_decryption_password
           name: "Ops Decryption Passphrase"
           input: password        
-          type: none
         - id: ops_ip
           name: "Ops IP"
-          type: ipaddress
         - id: ops_gw
-          name: "Ops Gateway"
-          type: ipaddress                     
+          name: "Ops Gateway"                      
         - id: ops_vm_network
           name: "Ops VM Network"
-          type: none
           input: dropdown
           optional: 0
           options: network_objs
@@ -681,224 +676,172 @@
       - "Datastore":
         - id: ephemeral_datastore
           name: "Ephemeral Datastore Name"
-          type: none
           input: dropdown
           optional: 0
           options: datastore_objs 
         - id: persistent_datastore
           name: "Persistent Datastore Name"
-          type: none
           input: dropdown
           optional: 0
           options: datastore_objs        
       - "Management Availability Zone":
         - id: bosh_vm_folder
           name: "Bosh VM Folder"
-          type: none
           default: "pks_vms"
           hide: 1
         - id: bosh_template_folder
           name: "Bosh Template Folder"
-          type: none
           default: "pks_templates"
           hide: 1 
         - id: bosh_disk_path
           name: "Bosh Disk Path"
-          type: none
           default: "pks_disk"
           hide: 1 
         - id: bosh_vm_disk_type
           name: "VM Disk Type"
-          type: none
           default: "thin"
           hide: 1 
         - id: bosh_enable_vm_resurrector
           name: "Enable VM Resurrector"
-          type: none
           default: true
           hide: 1
         - id: bosh_max_threads
           name: "Max Threads"
-          type: none
           default: 20
           hide: 1
         - id: icmp_checks_enabled
           name: "ICMP Check Enabled"
-          type: none
           default: false
           hide: 1
         - id: icmp_checks_enabled
           name: "ICMP Check Enabled"
-          type: none
           default: false
           hide: 1        
         - id: nsx_networking_enabled
           name: "NSX Networking Enabled"
-          type: none
           default: True
           hide: 1
         - id: nsx_mode
           name: "NSX Mode"
-          type: none
           default: nsx-t
           hide: 1
         - id: mgmt_az_name
           name: "Management Availablity Zone name"
-          type: none
         - id: mgmt_cluster_name
           name:  "Cluster"
-          type: none
           input: dropdown
           optional: 0
           options: cluster_objs
         - id: mgmt_rp
           name: "Resource Pool(optional)"
-          type: none
 {% for az in range(1, (compute_az|int)+1) %}    
       - "Compute Availablity Zone {{ az }}":
         - id: compute_az_{{ az }}_name 
           name: "Compute Availablity Zone {{ az }} Name"
-          type: none
         - id: compute_cluster_name
           name: "Cluster"
-          type: none
           input: dropdown
           optional: 0
           options: cluster_objs
         - id: compute_rp
           name: "Resource Pool(optional)"
-          type: none
 {% endfor %}
 
       - "Main Network":
         - id: main_network_name
           name: "Network Name"
-          type: none
           help: "Example: opsman-network"
         - id: vsphere_network_name_for_main_network
           name: "vSphere Network Name"
-          type: none
           input: dropdown
           optional: 0
           options: network_objs
         - id: main_network_cidr
           name: "CIDR"
-          type: none
         - id: reserverd_ip_ranges_for_main_network
-          name: "Reserved IP Ranges(optional)"   
-          type: none     
+          name: "Reserved IP Ranges(optional)"        
         - id: gateway_for_main_network
           name: "Gateway"
-          type: ipaddress
 
 
     - PKS Tile:
       - "PKS Configuration": 
         - id: pks_api_hostname
           name: "PKS API Hostname(FQDN)"
-          type: none
         - id: pks_username
           name: "PKS CLI Username"
-          type: none
           hide: 1
         - id: pks_pwd
           name: "PKS CLI Password"
-          type: none
           hide: 1
         - id: pks_network_name
           name: "PKS Network Name"
-          type: none
           hide: 1  
         - id: pks_vsphere_network_name
           name: "PKS vSphere Network Name"
-          type: none
           hide: 1  
         - id: pks_nw_cidr
           name: "PKS CIDR"
-          type: none
           hide: 1  
         - id: pks_excluded_range
           name: "PKS Excluded Range"
-          type: none
           hide: 1  
         - id: pks_nw_gateway
           name: "PKS Gateway"
-          type: ipaddress
           hide: 1  
         - id: pks_tile_system_domain
           name: "PKS Tile System Domain"
-          type: none
           hide: 1  
         - id: pks_tile_uaa_domain_prefix
           name: "PKS Tile Uaa Domain Prefix"
-          type: none
           hide: 1  
         - id: pks_tile_system_domain_ip
           name: "PKS Tile System Domain IP"
-          type: ipaddress
           hide: 1  
         - id: pks_tile_cli_user_email
           name: "PKS Tile CLI User Email"
-          type: none
           hide: 1  
         - id: pks_tile_vm_folder
           name: "PKS Tile VM Folder"
-          type: none
           default: 
           hide: 1  
         - id: pks_tile_singleton_job_availability_zone
           name: "PKS Tile Singleton Job Availability Zone Name"
-          type: none
           hide: 1
         - id: balance_availability_zone
           name: "Balance other jobs on"
-          type: none
           input: dropdown
           options: compute_az
           hide: 1
 
         - id: pks_tile_deployment_network_name
           name: "PKS Tile Deployment Network Name"
-          type: none
           hide: 1
         - id: pks_tile_cluster_service_network_name
-          name: "PKS Tile Cluster service Network Name"
-          type: none
+          name: "PKS Tile Cluster service Netowrk Name"
           hide: 1
         - id: pks_tile_nsx_skip_ssl_verification
           name: "PKS Tile NSX Skip SSL Verification"
-          type: none
           input: dropdown
           options:
             - id: true
             - id: false
         - id: pks_tile_disable_nsxt_precheck_command
           name: "PKS Tile Cluster service Netowrk Name"
-          type: none
           default: True
           hide: 1
         - id: pks_tile_nsx_nat_mode
           name: "PKS Tile NSX NAT Mode"
-          type: none
           input: dropdown
           options:
             - id: true
             - id: false
         - id: errand_vm_type
           name: "Errand VM Type"
-          type: none
           default: micro
           hide: 1
-        - id: allow_privileged_containers
-          name: "Allow Privileged Containers"
-          type: none
-          input: dropdown
-          options:
-            - id: false
-            - id: true
         - id: is_active_plan
           name: "Is Active Plan"
-          type: none
           default: true
           hide: 1
 
@@ -906,35 +849,35 @@
       - "Plan{{plan_no}} Structure":
         - id: plan_{{ plan_no }}_name
           name: "Plan Name"
-          type: none
         - id: plan_{{ plan_no }}_master_nodes
           name: "Number of Master Node"
-          type: none
           input: dropdown
           options: 
             - id: 1
             - id: 2 
             - id: 3        
-        - id: plan_{{ plan_no }}_availablity zone_for_master
+        - id: plan_{{ plan_no }}_availablity_zone_for_master
           name: "Availablity Zone for Master"
-          type: none
           input: dropdown
-          options: mgmt_az            
+          options: compute_az            
         - id: plan_{{ plan_no }}_worker_nodes
           name: "Number of Worker Node"
-          type: none
           input: dropdown
           options: 
 {% for count in range(1, 51) %}
             - id: {{ count }}
 {% endfor %}        
-        - id: plan_{{ plan_no }}_availablity zone_for_worker
+        - id: plan_{{ plan_no }}_availablity_zone_for_worker
           name: "Availablity Zone for Worker"
-          type: none
           input: dropdown
           options: compute_az
+        - id: plan_{{ plan_no }}_allow_privileged_containers
+          name: "Allow Privileged Containers"
+          input: dropdown
+          options:
+            - id: false
+            - id: true
 {% endfor %}
-
 
 
 
