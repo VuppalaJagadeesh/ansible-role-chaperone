@@ -117,7 +117,7 @@
     - vCenter Details:
       - "vCenter Config":
         - id: vcenter_host_ip
-          name: "vCenter Host Ip address"
+          name: "vCenter Host IP address"
           type: ipaddress
         - id: vcenter_user
           name: "vCenter User Name"
@@ -152,7 +152,7 @@
           default: "False"
           hide: 1
         - id: esxi_username
-          name: "ESXI Username"
+          name: "ESXi Username"
           type: none
           default: "root"
           hide: 1
@@ -168,17 +168,17 @@
 {% for host in range(1, (no_hosts_per_compute_cluster|int)+1) %}  
       - "Compute{{ count }} ESXI Host{{ host }} Information":
         - id: esxi_compute{{ count }}_host{{ host }}_ip
-          name: "ESXI Compute{{ count }} Host{{ host }} IP"
+          name: "ESXi Compute{{ count }} Host{{ host }} IP"
           type: ipaddress   
         - id: esxi_compute{{ count }}_host{{ host }}_password
           name: "ESXi Compute{{ count }} Host{{ host }} Root Password"
           type: none
           input: password
         - id: esxi_compute{{ count }}_host{{ host }}_os_version
-          name: "ESXI Compute{{ count }} Host{{ host }} OS Version"
+          name: "ESXi Compute{{ count }} Host{{ host }} OS Version"
           type: none
         - id: esxi_compute{{ count }}_host{{ host }}_vmnic
-          name: "ESXI Compute{{ count }} Host{{ host }} Available vmnic for NSX-T"
+          name: "ESXi Compute{{ count }} Host{{ host }} Available vmnic for NSX-T"
           type: none
 {% endfor %}
 {% endfor %}
@@ -613,58 +613,33 @@
           name: "Translated IP"
           type: ipaddress
 
-
-      - "SNAT For vCenter":
-        - id: snat_type_for_vcenter
+      - "SNAT For PKS":
+        - id: snat_type_for_pks
           name: "Action"
           type: none
           default: "SNAT"
           hide: 1
-        - id: snat_source_ip_for_vcenter
+        - id: snat_source_ip_for_pks
           name: "Source IP"
           type: ipaddress
-        - id: snat_translated_ip_for_vcenter
+        - id: snat_translated_ip_for_pks
           name: "Translated IP"
           type: ipaddress
 
-      - "DNAT For vCenter":
-        - id: dnat_type_for_vcenter
+      - "DNAT For PKS":
+        - id: dnat_type_for_pks
           name: "Action"
           type: none
           default: "DNAT"
           hide: 1
-        - id: dnat_destination_ip_for_vcenter
+        - id: dnat_destination_ip_for_pks
           name: "Destination IP"
           type: ipaddress
-        - id: dnat_translated_ip_for_vcenter
+        - id: dnat_translated_ip_for_pks
           name: "Translated IP"
           type: ipaddress
 
-      - "SNAT For ESXi":
-        - id: snat_type_for_esxi
-          name: "Action"
-          type: none
-          default: "SNAT"
-          hide: 1
-        - id: snat_source_ip_for_esxi
-          name: "Source IP"
-          type: ipaddress
-        - id: snat_translated_ip_for_esxi
-          name: "Translated IP"
-          type: ipaddress
 
-      - "DNAT For ESXi":
-        - id: dnat_type_for_esxi
-          name: "Action"
-          type: none
-          default: "DNAT"
-          hide: 1
-        - id: dnat_destination_ip_for_esxi
-          name: "Destination IP"
-          type: ipaddress
-        - id: dnat_translated_ip_for_esxi
-          name: "Translated IP"
-          type: ipaddress
   
 {% endif %}
 
@@ -692,11 +667,9 @@
         - id: ops_ip
           name: "Ops IP"
           type: ipaddress
-{% if pks_topology == 'NAT' %}
         - id: ops_gw
           name: "Ops Gateway"
-          type: ipaddress
-{% endif %}                      
+          type: ipaddress                     
         - id: ops_vm_network
           name: "Ops VM Network"
           type: none
