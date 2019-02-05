@@ -611,35 +611,8 @@
           type: ipaddress
         - id: dnat_translated_ip_for_opsmgr
           name: "Translated IP"
-          type: ipaddress
-
-      - "SNAT For PKS":
-        - id: snat_type_for_pks
-          name: "Action"
-          type: none
-          default: "SNAT"
-          hide: 1
-        - id: snat_translated_ip_for_pks
-          name: "Translated IP"
-          type: ipaddress
-
-      - "DNAT For PKS":
-        - id: dnat_type_for_pks
-          name: "Action"
-          type: none
-          default: "DNAT"
-          hide: 1
-        - id: dnat_destination_ip_for_pks
-          name: "Destination IP"
-          type: ipaddress
-
-
-  
+          type: ipaddress  
 {% endif %}
-
-
-
-
 
     - Ops Manager:
       - "Ops Manager Configuration":        
