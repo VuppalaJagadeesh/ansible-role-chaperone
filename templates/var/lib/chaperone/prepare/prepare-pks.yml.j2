@@ -51,9 +51,6 @@
           input: dropdown
           optional: 0
           options: datacenter_objs
-        - id: vcenter_rp_nsx-t
-          name: "vCenter Resource Pool for NSX-T"
-          type: none
         - id: vcenter_mgmgt_pg
           name: "Management Portgroup for NSX-T"
           type: none
@@ -360,9 +357,6 @@
         - id: vtep_ip_pool_cidr
           name: "VTEP IP Pool CIDR"
           type: none
-        - id: vtep_ip_pool_gw
-          name: "VTEP IP Pool Gateway"
-          type: ipaddress
         - id: vtep_ip_pool_start
           name: "VTEP IP Pool Start"
           type: ipaddress
@@ -631,7 +625,7 @@
         - id: mgmt_az_name
           name: "Management Availablity Zone name"
           type: none
-        - id: mgmt_cluster_name
+        - id: bosh_mgmt_cluster_name
           name:  "Cluster"
           type: none
           input: dropdown
